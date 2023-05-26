@@ -6,9 +6,7 @@ from typing import Tuple
 def equalizador_vetores(
         vetor1: list[int], vetor2: list[int], numb1: int, numb2: int
 ) -> Tuple[list[int], list[int]]:
-    '''Transforma os vetores em mesmo tamanho. Caso o primeiro vetor
-    seja maior, adiciona o número "numb2" ao final, caso ele seja
-    o menor, adiona o número "numb1"'''
+    '''Transforma os vetores em mesmo tamanho.'''
     if len(vetor1) > len(vetor2):
         for _ in range(len(vetor1) - len(vetor2)):
             vetor2.append(numb2)
@@ -76,8 +74,8 @@ def produto_interno(vetor1: list[int], vetor2: list[int]) -> int:
 
 def multiplica_todos(vetor1: list[int], vetor2: list[int]) -> list[int]:
     '''Multiplica cada elemento do vetor1 pelos elementos do
-        vetor2 e efetua a soma desses valores. Transforma
-        em vetor cujos elementos são as somas efetuadas.'''
+    vetor2 e efetua a soma desses valores. Transforma
+    em vetor cujos elementos são as somas efetuadas.'''
     vetor = []
     for i in range(len(vetor1)):
         add = 0

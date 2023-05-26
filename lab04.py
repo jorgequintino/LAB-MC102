@@ -31,7 +31,7 @@ for i in range(amount_days):
         animals_name.append(animal)
         procedures_desired.append(procedure)
 
-    # Brigas ococrridas
+    # Brigas ocorridas
     amount_fights = 0
     for t in range(0, len(fight_pairs_set), 2):
          if fight_pairs_set[t] in animals_name and fight_pairs_set[t+1] in animals_name:

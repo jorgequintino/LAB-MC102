@@ -1,78 +1,78 @@
 #Relação de árvore filogenética
 
-def reverter(i,j,genoma):
+def reverter(i,j,genome):
     '''Inverte a ordem de uma sequência de letras do genoma.'''
-    return genoma[:i] + genoma[i:j+1][::-1] + genoma[j+1:]
+    return genome[:i] + genome[i:j+1][::-1] + genome[j+1:]
 
-def transpor(i,j,k,genoma):
+def transpor(i,j,k,genome):
     '''Troca de lugar dois grupos de letras do genoma.'''
-    return genoma[:i] + genoma[j+1:k+1] + genoma[i:j+1] + genoma[k+1:]
+    return genome[:i] + genome[j+1:k+1] + genome[i:j+1] + genome[k+1:]
 
-def combinar(g,i,genoma):
+def combinar(g,i,genome):
     '''Adiciona novo grupo de letras ao genoma.'''
-    return genoma[:i] + g + genoma[i:]
+    return genome[:i] + g + genome[i:]
 
-def concatenar(g,genoma):
+def concatenar(g,genome):
     '''Adiciona, no final do genoma, novo grupo de letras.'''
-    return genoma + g
+    return genome + g
 
-def remover(i,j,genoma):
-    '''Remove do genoma uma sequencia de letras.'''
-    return genoma[:i] + genoma[j+1:]
+def remover(i,j,genome):
+    '''Remove do genoma uma sequência de letras.'''
+    return genome[:i] + genome[j+1:]
 
-def transpor_e_reverter(i,j,k,genoma):
-    '''Primeiro executa a transposição de dois rupos de letras e depois inverte a ordem do resultado da transposição.'''
-    genoma = transpor(i, j, k, genoma)
-    genoma = reverter(i, k, genoma)
-    return genoma
+def transpor_e_reverter(i,j,k,genome):
+    '''Primeiro executa a transposição de dois grupos de letras e depois inverte a ordem do resultado da transposição.'''
+    genome = transpor(i, j, k, genome)
+    genome = reverter(i, k, genome)
+    return genome
 
-def buscar(g,genoma):
-    '''Conta quantas vezes uma sequência de letras aparece no genoma.'''
-    return genoma.count(g)
+def buscar(g,genome):
+    '''Mostra quantas vezes uma sequência de letras aparece no genoma.'''
+    print(genome.count(g))
 
-def buscar_bidirecional(g,genoma):
-    '''Soma a quantidade de vezes que uma sequẽncia de letras aparece no genoma e no seu inverso.'''
-    return genoma.count(g) + genoma[::-1].count(g)
+def buscar_bidirecional(g,genome):
+    '''Mostra a quantidade de vezes que uma sequência de letras aparece no genoma e no seu inverso.'''
+    print(genome.count(g) + genome[::-1].count(g))
 
-def mostrar(genoma):
+def mostrar(genome):
     '''Mostra o genoma.'''
-    print(genoma)
+    print(genome)
 
-genoma = input()
+genome = input()
 while True:
-    comando = input().split()
-    if comando[0] == "reverter":
-        i = int(comando[1])
-        j = int(comando[2])
-        genoma = reverter(i,j,genoma)
-    elif comando[0] == "transpor":
-        i = int(comando[1])
-        j = int(comando[2])
-        k = int(comando[3])
-        genoma = transpor(i,j,k,genoma)
-    elif comando[0] == "combinar":
-        i = int(comando[2])
-        g = comando[1]
-        genoma = combinar(g,i,genoma)
-    elif comando[0] == "concatenar":
-        g = comando[1]
-        genoma = concatenar(g,genoma)
-    elif comando[0] == "remover":
-        i = int(comando[1])
-        j = int(comando[2])
-        genoma = remover(i,j,genoma)
-    elif comando[0] == "transpor_e_reverter":
-        i = int(comando[1])
-        j = int(comando[2])
-        k = int(comando[3])
-        genoma = transpor_e_reverter(i,j,k,genoma)
-    elif comando[0] == "buscar":
-        g = comando[1]
-        print(buscar(g,genoma))
-    elif comando[0] == "buscar_bidirecional":
-        g = comando[1]
-        print(buscar_bidirecional(g,genoma))
-    elif comando[0] == "mostrar":
-        mostrar(genoma)
-    elif comando[0] == "sair":
+    act = input().split()
+    if act[0] == "reverter":
+        i = int(act[1])
+        j = int(act[2])
+        genome = reverter(i,j,genome)
+    elif act[0] == "transpor":
+        i = int(act[1])
+        j = int(act[2])
+        k = int(act[3])
+        genome = transpor(i,j,k,genome)
+    elif act[0] == "combinar":
+        i = int(act[2])
+        g = act[1]
+        genome = combinar(g,i,genome)
+    elif act[0] == "concatenar":
+        g = act[1]
+        genome = concatenar(g,genome)
+    elif act[0] == "remover":
+        i = int(act[1])
+        j = int(act[2])
+        genome = remover(i,j,genome)
+    elif act[0] == "transpor_e_reverter":
+        i = int(act[1])
+        j = int(act[2])
+        k = int(act[3])
+        genome = transpor_e_reverter(i,j,k,genome)
+    elif act[0] == "buscar":
+        g = act[1]
+        buscar(g,genome)
+    elif act[0] == "buscar_bidirecional":
+        g = act[1]
+        buscar_bidirecional(g,genome)
+    elif act[0] == "mostrar":
+        mostrar(genome)
+    elif act[0] == "sair":
         break

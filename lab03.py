@@ -44,5 +44,5 @@ while i < player_numb:
 # Resultado da partida.
 if empate == True :
     print("Rodada de cerveja para todos os jogadores!")
-elif empate == False:
+else:
     print("O jogador número", status ,"vai receber o melhor bolo da cidade pois venceu com", maximo ,"ponto(s)!")
