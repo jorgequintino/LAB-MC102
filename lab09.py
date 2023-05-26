@@ -75,3 +75,4 @@ def main ():
 # salvar a posição que tem sujeira
 # mover até ela pela ordem que ele anda
 # separar em diferentes funções de movimento
+# TESTING
