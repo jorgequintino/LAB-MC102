@@ -71,6 +71,7 @@ def scanner(room, robot_position, room_numb):
                 x = cleaning
         elif robot_position[1] == len(room[0]) - 1:
             if room[robot[0] - 1][robot[1]] != "o":
+                
 
         else:
             comando
