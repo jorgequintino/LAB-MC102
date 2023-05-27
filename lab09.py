@@ -1,6 +1,7 @@
 # Cleaning Room Robot From Smaug
 
 
+<<<<<<< HEAD
 def scanner(room, robot_position):
     if robot_position[0] % 0:
         if robot_position[0] == 0: # primeira linha
@@ -52,10 +53,51 @@ def scanner(room, robot_position):
 
 
 
+
 # esq if room[robot_position[0]][robot_position[1] - 1] != "o":
 # cima if room[robot_position[0] - 1][robot_position[1]] != "o":
 # dir if room[robot_position[0]][robot_position[1] + 1] != "o":
 # baixo if room[robot_position[0] + 1][robot_position[1]] != "o":
+=======
+def scanner(room, robot_position, room_numb):
+    if robot_position[0] == 0:
+        if robot_position[1] == 0:
+            if room[robot[0] + 1][robot[1]] != "o":
+                if room[robot[0] - 1][robot[1]] != "o":
+                    x = walking # # salvar a posição que tem sujeira
+                elif room[robot[0] - 1][robot[1]] == "o":
+                    x = cleaning
+            elif room[robot[0] + 1][robot[1]] == "o":
+                x = cleaning
+        elif robot_position[1] == len(room[0]) - 1:
+            if room[robot[0] - 1][robot[1]] != "o":
+
+        else:
+            comando
+    elif robot_position[0] == room_numb - 1:
+        if robot_position[1] == 0:
+            comando
+        elif robot_position[1] == len(room[0]) - 1:
+            comando
+        else:
+            comando
+    while robot_position[0] > 0 and robot_position < room_numb - 1:
+        if robot_position[1] == 1 :
+            comando
+        elif robot_position[1] == len(room[0]) - 1:
+            
+        else:
+            if room[robot_position[0] - 1][robot_position[1]] != "o":
+                if room[robot[0]][robot[1] - 1] != "o":
+                    if room[robot[0] + 1][robot[1]] != "o":
+                        if room[robot[0] - 1][robot[1]] != "o":
+                            x = walking # # salvar a posição que tem sujeira
+                        elif room[robot[0] - 1][robot[1]] == "o":
+                            x = cleaning
+
+
+# dependendo da linha, o movimento do robô muda
+>>>>>>> b3e1f4e (k)
 
     # controlar as paredes, tipo (-1,0)
     if room[robot_position[0] - 1][robot_position[1]] != "o":
