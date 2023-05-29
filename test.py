@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # def vence(kae, movies):
 #     point_winner = 0
 #     empate = False
@@ -114,3 +115,53 @@ for i in d:
     x += i + ", "
 x = x[:-2]
 print(x)
+=======
+def walking(room, robot_position):
+    if robot_position[0] % 2 == 0:
+        if (robot_position[1] + 1) < len(room[0]):
+            room[robot_position[0]][robot_position[1] + 1] = "r"
+            room[robot_position[0]][robot_position[1]] = "."
+            robot_position = (robot_position[0], robot_position[1] + 1)
+            # mudar a localização do robo .
+        else:
+            room[robot_position[0] + 1][robot_position[1]] = "r"
+            room[robot_position[0]][robot_position[1]] = "."
+            robot_position = (robot_position[0] + 1, robot_position[1])
+    elif robot_position[0] % 2 != 0:
+        if (robot_position[1] - 1) >= 0:
+            room[robot_position[0]][robot_position[1] - 1] = "r"
+            room[robot_position[0]][robot_position[1]] = "."
+            robot_position = (robot_position[0], robot_position[1] - 1)
+        else:
+            room[robot_position[0] + 1][robot_position[1]] = "r"
+            room[robot_position[0]][robot_position[1]] = "."
+            robot_position = (robot_position[0] + 1, robot_position[1])
+    return room, robot_position
+
+
+def finish_cleaning(room, room_numb, robot_position):
+    if room_numb % 2 == 0:
+        pos = robot_position
+        for _ in range(len(room[0]) - 1):
+            room[pos[0]][pos[1] + 1] = "r"
+            room[pos[0]][pos[1]] = "."
+            pos = (pos[0], pos[1] + 1)
+            print(room)
+
+
+def main():
+    room_numb = int(input())
+    #line > 0
+    room = []
+    for _ in range(room_numb):
+        room.append(input().split())
+    print(room)
+    robot_position = (0, 0)
+    for _ in range(len(room[0])*room_numb - 1):
+        room, robot_position = walking(room, robot_position)
+        print(room)
+    finish_cleaning(room, room_numb, robot_position)
+
+if __name__ == "__main__":
+    main()
+>>>>>>> bf87f75 (hfg)
