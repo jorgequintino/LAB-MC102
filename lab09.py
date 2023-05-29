@@ -87,6 +87,7 @@ def finish_cleaning(room, room_numb, robot_position):
         return stamp
 
 
+
 def stamp(room):
     return print(room)
 
