@@ -2,6 +2,7 @@
 
 
 
+
 <<<<<<< HEAD
 def scanner(room, robot_position):
     if robot_position[0] % 0:
