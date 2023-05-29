@@ -1,6 +1,7 @@
 # Cleaning Room Robot From Smaug
 
 
+
 def scanner(room, robot_position):
     if robot_position[0] % 0:
         if robot_position[0] == 0: # primeira linha
