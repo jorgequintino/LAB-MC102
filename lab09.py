@@ -1,20 +1,75 @@
 # Cleaning Room Robot From Smaug
 
 
-def scanner(room, robot):
+def scanner(room, robot_position):
+    if robot_position[0] % 0:
+        if robot_position[0] == 0: # primeira linha
+            if robot_position[1] == 0:
+                if room[robot_position[0]][robot_position[1] + 1] != "o":
+                    if room[robot_position[0] + 1][robot_position[1]] == "o":
+                        dirty = (robot_position[0] + 1, robot_position[1])
+                elif room[robot_position[0]][robot_position[1] + 1] == "o":
+                    dirty = (robot_position[0], robot_position[1] + 1)
+            elif robot_position[1] == len(room[0]) - 1:
+                if room[robot_position[0] - 1][robot_position[1]] != "o":
+                    if room[robot_position[0] + 1][robot_position[1]] == "o":
+                        dirty = (robot_position[0] + 1, robot_position[1])
+            else:
+                if room[robot_position[0]][robot_position[1] - 1] != "o":
+                    if room[robot_position[0]][robot_position[1] + 1] != "o":
+                        if room[robot_position[0] - 1][robot_position[1]] == "o":
+                            dirty = (robot_position[0] - 1, robot_position[1])
+                    elif room[robot_position[0]][robot_position[1] + 1] == "o":
+                        dirty = (robot_position[0], robot_position[1] + 1)
+                elif room[robot_position[0]][robot_position[1] - 1] != "o":
+                    dirty = (robot_position[0], robot_position[1] - 1)
+
+        if robot_position[0] == len(room[0]) - 1: #ultima linha
+            if robot_position[1] == 0:
+                if room[robot_position[0]][robot_position[1] + 1] != "o":
+                    if room[robot_position[0] + 1][robot_position[1]] == "o":
+                        dirty = (robot_position[0] + 1, robot_position[1])
+                elif room[robot_position[0]][robot_position[1] + 1] == "o":
+                    dirty = (robot_position[0], robot_position[1] + 1)
+            elif robot_position[1] == len(room[0]) - 1:
+                if room[robot_position[0] - 1][robot_position[1]] != "o":
+                    if room[robot_position[0] + 1][robot_position[1]] == "o":
+                        dirty = (robot_position[0] + 1, robot_position[1])
+            else:
+                if room[robot_position[0]][robot_position[1] - 1] != "o":
+                    if room[robot_position[0]][robot_position[1] + 1] != "o":
+                        if room[robot_position[0] - 1][robot_position[1]] == "o":
+                            dirty = (robot_position[0] - 1, robot_position[1])
+                    elif room[robot_position[0]][robot_position[1] + 1] == "o":
+                        dirty = (robot_position[0], robot_position[1] + 1)
+                elif room[robot_position[0]][robot_position[1] - 1] != "o":
+                    dirty = (robot_position[0], robot_position[1] - 1)
+
+# linhas do meio
+
+    return dirty
+                    
+
+
+
+# esq if room[robot_position[0]][robot_position[1] - 1] != "o":
+# cima if room[robot_position[0] - 1][robot_position[1]] != "o":
+# dir if room[robot_position[0]][robot_position[1] + 1] != "o":
+# baixo if room[robot_position[0] + 1][robot_position[1]] != "o":
+
     # controlar as paredes, tipo (-1,0)
-    if room[robot[0] - 1][robot[1]] != "o":
-        if room[robot[0]][robot[1] - 1] != "o":
-            if room[robot[0] + 1][robot[1]] != "o":
-                if room[robot[0] - 1][robot[1]] != "o":
+    if room[robot_position[0] - 1][robot_position[1]] != "o":
+        if room[robot_position[0]][robot_position[1] - 1] != "o":
+            if room[robot_position[0] + 1][robot_position[1]] != "o":
+                if room[robot_position[0] - 1][robot_position[1]] != "o":
                     x = walking # # salvar a posição que tem sujeira
-                elif room[robot[0] - 1][robot[1]] == "o":
+                elif room[robot_position[0] - 1][robot_position[1]] == "o":
                     x = cleaning
-            elif room[robot[0] + 1][robot[1]] == "o":
+            elif room[robot_position[0] + 1][robot_position[1]] == "o":
                 x = cleaning
-        elif room[robot[0]][robot[1] - 1] == "o":
+        elif room[robot_position[0]][robot_position[1] - 1] == "o":
             x = cleaning
-    elif room[robot[0] - 1][robot[1]] == "o":
+    elif room[robot_position[0] - 1][robot_position[1]] == "o":
         x = cleaning
     return x
 
@@ -27,8 +82,8 @@ def back_scanner():
     pass
 
 
-def finish_cleaning(room, room_numb, robot):
-    if robot == (room_numb - 1, len(room[room_numb - 1])):
+def finish_cleaning(room, room_numb, robot_position):
+    if robot_position == (room_numb - 1, len(room[room_numb - 1])):
         return stamp
 
 
@@ -36,28 +91,44 @@ def stamp(room):
     return print(room)
 
 
-def walking(room, robot):
-    if robot[0] % 2 == 0:
-        if (robot[1] + 1) < len(room[0]):
-            room[robot[0]][robot[1] + 1] = "r"
-            room[robot[0]][robot[1]] = "."
+def walking_left():
+    pass
+
+
+def walking_up():
+    pass
+
+
+def walking_right():
+    pass
+
+
+def walking_low():
+    pass
+
+
+def walking(room, robot_position):
+    if robot_position[0] % 2 == 0:
+        if (robot_position[1] + 1) < len(room[0]):
+            room[robot_position[0]][robot_position[1] + 1] = "r"
+            room[robot_position[0]][robot_position[1]] = "."
             # mudar a localizaçã do robo .
         else:
-            room[robot[0] + 1][robot[1]] = "r"
-            room[robot[0]][robot[1]] = "."
+            room[robot_position[0] + 1][robot_position[1]] = "r"
+            room[robot_position[0]][robot_position[1]] = "."
     else:
-        if (robot[1] - 1) < 0:
-            room[robot[1] - 1] = "r"
-            robot[1] = "."
+        if (robot_position[1] - 1) < 0:
+            room[robot_position[1] - 1] = "r"
+            robot_position[1] = "."
         else:
-            room[robot[0] + 1] = "r"
-            robot[0] = "."
+            room[robot_position[0] + 1] = "r"
+            robot_position[0] = "."
     return room
 
 
-def location(room, robot):
+def location(room, robot_position):
     # na posição em ue moveu-se o r,
-    # está a localização do robot 
+    # está a localização do robot_position 
     pass
 
 
