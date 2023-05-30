@@ -1,3 +1,5 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 # def vence(kae, movies):
 #     point_winner = 0
 #     empate = False
@@ -113,6 +115,90 @@ x = ""
 for i in d:
     x += i + ", "
 x = x[:-2]
+<<<<<<< HEAD
 
 
 print(x)
+=======
+print(x)
+=======
+=======
+def walking_left(room, robot_position):
+    room[robot_position[0]][robot_position[1] + 1] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+
+
+def walking_up():
+    pass
+
+
+def walking_right(room, robot_position):
+    room[robot_position[0]][robot_position[1] - 1] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+
+
+def walking_low(room, robot_position):
+    room[robot_position[0] + 1][robot_position[1]] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+
+
+def location(robot_position, a, b):
+    robot_position = (robot_position[0] + a, robot_position[1] + b)
+    return robot_position
+
+def stamp(room):
+    for i in range(len(room[0])):
+        print(*room[i])
+    print()
+
+
+>>>>>>> 8022e0b (dsvs)
+def walking(room, robot_position):
+    if robot_position[0] % 2 == 0:
+        if (robot_position[1] + 1) < len(room[0]):
+            walking_left(room, robot_position)
+            robot_position = location(robot_position, 0, 1)
+            # mudar a localização do robo .
+        else:
+            walking_low(room, robot_position)
+            robot_position = location(robot_position, 1, 0)
+    elif robot_position[0] % 2 != 0:
+        if (robot_position[1] - 1) >= 0:
+            walking_right(room, robot_position)
+            robot_position = location(robot_position, 0, -1)
+        else:
+            walking_low(room, robot_position)
+            robot_position = location(robot_position, +1, 0)
+    return room, robot_position
+
+
+def finish_cleaning(room, room_numb, robot_position):
+    if room_numb % 2 == 0:
+        pos = robot_position
+        for _ in range(len(room[0]) - 1):
+            room[pos[0]][pos[1] + 1] = "r"
+            room[pos[0]][pos[1]] = "."
+            pos = (pos[0], pos[1] + 1)
+            stamp(room)
+
+
+def main():
+    room_numb = int(input())
+    #line > 0
+    room = []
+    for _ in range(room_numb):
+        room.append(input().split())
+    stamp(room)
+    #print()
+    robot_position = (0, 0)
+    # for _ in range(len(room[0])*room_numb - 1):
+    #     room, robot_position = walking(room, robot_position)
+    #     stamp(room)
+    # finish_cleaning(room, room_numb, robot_position)
+    while True:
+        search()
+
+if __name__ == "__main__":
+    main()
+>>>>>>> bf87f75 (hfg)
+>>>>>>> f7a805138a938d8dcf32cbad6514369108d57018
