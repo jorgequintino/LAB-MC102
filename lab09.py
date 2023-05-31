@@ -8,11 +8,8 @@ def search(room, robot_position, room_numb):
         if dirty[1] >= 0 and dirty[1] < len(room[0]):
             if dirty[0] >= 0 and dirty[0] < room_numb:
                 if room[dirty[0]][dirty[1]] == "o":
-                    cleaning(robot_position, room, dirty)
-                    last_position = robot_position # salvar em um dicionário?
-                    break
-    return "clean"
-
+                    return dirty, robot_position
+    return None, None
 
 # def jasj():
 #     point = search(room, robot_position, room_numb)
@@ -33,7 +30,6 @@ def search(room, robot_position, room_numb):
 def cleaning(robot_position, room, dirty, room_numb):
     room[dirty[0]][dirty[1]] = "r"
     room[robot_position[0]][robot_position[1]] = "."
-    dirt = search(room, dirty, room_numb)
 
 
 def back_scanner(dirty, last_position, room, room_numb):
@@ -119,16 +115,36 @@ def location(robot_position, a, b):
 
 def main ():
     room_numb = int(input())
-    #line > 0
+    # line > 0
     room = []
     for _ in range(room_numb):
         room.append(input().split())
     robot_position = (0, 0)
     stamp(room)
-    for _ in range(len(room[0])*room_numb - 1):
-        room, robot_position = scanner(room, robot_position)
+
+    while True:
+        dirty, last_position = search(room, robot_position, room_numb)
+        # dirty_position = [] # problema
+        # dirty_position.append(dirty)
+        if dirty is not None:
+            #for dirty in dirty_position: while, break se dirty is none
+                cleaning(robot_position, room, dirty, room_numb)
+                # fazer um loop aqui que vai meter um search and cleaning eterno
+                search()
+                if l == "chamar sujeira":
+                    cleaning()
+                    search()
+                elif l == "clean":
+                    back_scanner(dirty, last_position, room, room_numb)
+        scanner(room, last_position)
         stamp(room)
-    finish_cleaning(room, room_numb, robot_position)
+        # finish_cleaning()
+        # criar condicionais para chamar essa função
+
+    # for _ in range(len(room[0])*room_numb - 1):
+    #     room, robot_position = scanner(room, robot_position)
+    #     stamp(room)
+    # finish_cleaning(room, room_numb, robot_position)
 
 
 if __name__ == "__main__":
