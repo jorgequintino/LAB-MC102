@@ -1,6 +1,54 @@
 # Cleaning Room Robot From Smaug
 
 
+def location(robot_position, a, b):
+    return (robot_position[0] + a, robot_position[1] + b)
+
+
+def walking_right(room, robot_position):
+    room[robot_position[0]][robot_position[1] + 1] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+    robot_position = location(robot_position, 0, 1)
+
+
+def walking_up(room, robot_position):
+    room[robot_position[0] - 1][robot_position[1]] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+    robot_position = location(robot_position, -1, 0)
+
+
+def walking_left(room, robot_position):
+    room[robot_position[0]][robot_position[1] - 1] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+    robot_position = location(robot_position, 0, -1)
+
+
+def walking_down(room, robot_position):
+    room[robot_position[0] + 1][robot_position[1]] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+    robot_position = location(robot_position, 1, 0)
+
+
+def scanner(room, robot_position):
+    if robot_position[0] % 2 == 0:
+        try:
+            if (robot_position[1] + 1) < len(room[0]):
+                walking_right(room, robot_position)
+            else:
+                walking_down(room, robot_position)
+        except IndexError:
+            return None, robot_position
+    elif robot_position[0] % 2 != 0:
+        try:
+            if (robot_position[1] - 1) >= 0:
+                walking_left(room, robot_position)
+            else:
+                walking_down(room, robot_position)
+        except IndexError:
+            return None, robot_position
+    return room, robot_position
+
+
 def search(room, robot_position, room_numb):
     scanning = [(0, -1), (-1, 0), (0, +1), (+1, 0)]
     for position in scanning:
@@ -9,12 +57,13 @@ def search(room, robot_position, room_numb):
             if dirty[0] >= 0 and dirty[0] < room_numb:
                 if room[dirty[0]][dirty[1]] == "o":
                     return dirty, robot_position
-    return None, None
+    return None, robot_position
 
 # salvar a posição da sujeira e mandar ele ir atras
 def cleaning(robot_position, room, dirty, room_numb):
     room[dirty[0]][dirty[1]] = "r"
     room[robot_position[0]][robot_position[1]] = "."
+    robot_position = location(dirty, 0, 0)
 
 
 def back_scanner(dirty, last_position, room, room_numb):
@@ -47,48 +96,6 @@ def stamp(room):
     print()
 
 
-def walking_right(room, robot_position):
-    room[robot_position[0]][robot_position[1] + 1] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
-
-
-def walking_up(room, robot_position):
-    room[robot_position[0] - 1][robot_position[1]] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
-
-
-def walking_left(room, robot_position):
-    room[robot_position[0]][robot_position[1] - 1] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
-
-
-def walking_down(room, robot_position):
-    room[robot_position[0] + 1][robot_position[1]] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
-
-
-def scanner(room, robot_position):
-    if robot_position[0] % 2 == 0:
-        if (robot_position[1] + 1) < len(room[0]):
-            walking_right(room, robot_position)
-            robot_position = location(robot_position, 0, 1)
-        else:
-            walking_down(room, robot_position)
-            robot_position = location(robot_position, 1, 0)
-    elif robot_position[0] % 2 != 0:
-        if (robot_position[1] - 1) >= 0:
-            walking_left(room, robot_position)
-            robot_position = location(robot_position, 0, -1)
-        else:
-            walking_down(room, robot_position)
-            robot_position = location(robot_position, +1, 0)
-    return room, robot_position
-
-
-def location(robot_position, a, b):
-    return (robot_position[0] + a, robot_position[1] + b)
-
-
 def main():
     room_numb = int(input())
     room = []
@@ -97,7 +104,7 @@ def main():
     robot_position = (0, 0)
     stamp(room)
 
-    while True: # maybe figure out a better condition
+    while True:  # maybe figure out a better condition
         dirty, last_position = search(room, robot_position, room_numb)
         # dirty_position = [] # problema
         # dirty_position.append(dirty)
@@ -107,22 +114,18 @@ def main():
             # fazer um loop aqui que vai meter um search and cleaning eterno
             # vai dar problema com dirty
             while dirti is not None:
-                cleaning(robot_position, room, dirti, room_numb)
+                cleaning(posi, room, dirti, room_numb)
                 dirti, posi = search(room, dirti, room_numb)
             while dirti is None:
-                back_scanner(dirty, last_position, room, room_numb)
-                dirti, posi = search(room, dirty, room_numb)  # this dirty / posi
+                back_scanner(posi, last_position, room, room_numb)
+                dirti, posi = search(room, posi, room_numb)  # this dirty / posi
         room, robot_position = scanner(room, last_position)
+        if room is None:
+            break
         stamp(room)
-        break # algo em relação a função scanner
 
     finish_cleaning(room, room_numb, robot_position)
 
 
 if __name__ == "__main__":
     main()
-
-# salvar a posição que tem sujeira
-# mover até ela pela ordem que ele anda
-# separar em diferentes funções de movimento
-# TESTING 
