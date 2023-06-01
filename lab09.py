@@ -52,7 +52,7 @@ def scanner(room, robot_position):
 def search(room, robot_position, room_numb):
     scanning = [(0, -1), (-1, 0), (0, +1), (+1, 0)]
     for position in scanning:
-        dirty = robot_position + position
+        dirty = (robot_position[0] + position[0], robot_position[1] + position[1])
         if dirty[1] >= 0 and dirty[1] < len(room[0]):
             if dirty[0] >= 0 and dirty[0] < room_numb:
                 if room[dirty[0]][dirty[1]] == "o":
