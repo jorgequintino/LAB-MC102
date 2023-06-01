@@ -1,196 +1,127 @@
 # Cleaning Room Robot From Smaug
 
 
+def search(room, robot_position, room_numb):
+    scanning = [(0, -1), (-1, 0), (0, +1), (+1, 0)]
+    for position in scanning:
+        dirty = robot_position + position
+        if dirty[1] >= 0 and dirty[1] < len(room[0]):
+            if dirty[0] >= 0 and dirty[0] < room_numb:
+                if room[dirty[0]][dirty[1]] == "o":
+                    return dirty, robot_position
+    return None, None
 
-<<<<<<< HEAD
-=======
-
-<<<<<<< HEAD
->>>>>>> f7a805138a938d8dcf32cbad6514369108d57018
-def scanner(room, robot_position):
-    if robot_position[0] % 0:
-        if robot_position[0] == 0: # primeira linha
-            if robot_position[1] == 0:
-                if room[robot_position[0]][robot_position[1] + 1] != "o":
-                    if room[robot_position[0] + 1][robot_position[1]] == "o":
-                        dirty = (robot_position[0] + 1, robot_position[1])
-                elif room[robot_position[0]][robot_position[1] + 1] == "o":
-                    dirty = (robot_position[0], robot_position[1] + 1)
-            elif robot_position[1] == len(room[0]) - 1:
-                if room[robot_position[0] - 1][robot_position[1]] != "o":
-                    if room[robot_position[0] + 1][robot_position[1]] == "o":
-                        dirty = (robot_position[0] + 1, robot_position[1])
-            else:
-                if room[robot_position[0]][robot_position[1] - 1] != "o":
-                    if room[robot_position[0]][robot_position[1] + 1] != "o":
-                        if room[robot_position[0] - 1][robot_position[1]] == "o":
-                            dirty = (robot_position[0] - 1, robot_position[1])
-                    elif room[robot_position[0]][robot_position[1] + 1] == "o":
-                        dirty = (robot_position[0], robot_position[1] + 1)
-                elif room[robot_position[0]][robot_position[1] - 1] != "o":
-                    dirty = (robot_position[0], robot_position[1] - 1)
-
-        if robot_position[0] == len(room[0]) - 1: #ultima linha
-            if robot_position[1] == 0:
-                if room[robot_position[0]][robot_position[1] + 1] != "o":
-                    if room[robot_position[0] + 1][robot_position[1]] == "o":
-                        dirty = (robot_position[0] + 1, robot_position[1])
-                elif room[robot_position[0]][robot_position[1] + 1] == "o":
-                    dirty = (robot_position[0], robot_position[1] + 1)
-            elif robot_position[1] == len(room[0]) - 1:
-                if room[robot_position[0] - 1][robot_position[1]] != "o":
-                    if room[robot_position[0] + 1][robot_position[1]] == "o":
-                        dirty = (robot_position[0] + 1, robot_position[1])
-            else:
-                if room[robot_position[0]][robot_position[1] - 1] != "o":
-                    if room[robot_position[0]][robot_position[1] + 1] != "o":
-                        if room[robot_position[0] - 1][robot_position[1]] == "o":
-                            dirty = (robot_position[0] - 1, robot_position[1])
-                    elif room[robot_position[0]][robot_position[1] + 1] == "o":
-                        dirty = (robot_position[0], robot_position[1] + 1)
-                elif room[robot_position[0]][robot_position[1] - 1] != "o":
-                    dirty = (robot_position[0], robot_position[1] - 1)
-
-# linhas do meio
-
-    return dirty
-                    
-
-
-
-
-# esq if room[robot_position[0]][robot_position[1] - 1] != "o":
-# cima if room[robot_position[0] - 1][robot_position[1]] != "o":
-# dir if room[robot_position[0]][robot_position[1] + 1] != "o":
-# baixo if room[robot_position[0] + 1][robot_position[1]] != "o":
-=======
-def scanner(room, robot_position, room_numb):
-    if robot_position[0] == 0:
-        if robot_position[1] == 0:
-            if room[robot[0] + 1][robot[1]] != "o":
-                if room[robot[0] - 1][robot[1]] != "o":
-                    x = walking # # salvar a posição que tem sujeira
-                elif room[robot[0] - 1][robot[1]] == "o":
-                    x = cleaning
-            elif room[robot[0] + 1][robot[1]] == "o":
-                x = cleaning
-        elif robot_position[1] == len(room[0]) - 1:
-            if room[robot[0] - 1][robot[1]] != "o":
-    
-
-        else:
-            comando
-    elif robot_position[0] == room_numb - 1:
-        if robot_position[1] == 0:
-            comando
-        elif robot_position[1] == len(room[0]) - 1:
-            comando
-        else:
-            comando
-    while robot_position[0] > 0 and robot_position < room_numb - 1:
-        if robot_position[1] == 1 :
-            comando
-        elif robot_position[1] == len(room[0]) - 1:
-            
-        else:
-            if room[robot_position[0] - 1][robot_position[1]] != "o":
-                if room[robot[0]][robot[1] - 1] != "o":
-                    if room[robot[0] + 1][robot[1]] != "o":
-                        if room[robot[0] - 1][robot[1]] != "o":
-                            x = walking # # salvar a posição que tem sujeira
-                        elif room[robot[0] - 1][robot[1]] == "o":
-                            x = cleaning
-
-
-# dependendo da linha, o movimento do robô muda
->>>>>>> b3e1f4e (k)
-
-    # controlar as paredes, tipo (-1,0)
-    if room[robot_position[0] - 1][robot_position[1]] != "o":
-        if room[robot_position[0]][robot_position[1] - 1] != "o":
-            if room[robot_position[0] + 1][robot_position[1]] != "o":
-                if room[robot_position[0] - 1][robot_position[1]] != "o":
-                    x = walking # # salvar a posição que tem sujeira
-                elif room[robot_position[0] - 1][robot_position[1]] == "o":
-                    x = cleaning
-            elif room[robot_position[0] + 1][robot_position[1]] == "o":
-                x = cleaning
-        elif room[robot_position[0]][robot_position[1] - 1] == "o":
-            x = cleaning
-    elif room[robot_position[0] - 1][robot_position[1]] == "o":
-        x = cleaning
-    return x
 
 # salvar a posição da sujeira e mandar ele ir atras
-def cleaning():
-    pass
+def cleaning(robot_position, room, dirty, room_numb):
+    room[dirty[0]][dirty[1]] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
 
 
-def back_scanner():
-    pass
+def back_scanner(dirty, last_position, room, room_numb):
+    if dirty[1] != last_position[1]:
+        if dirty[1] < last_position[1]:
+            walking_right(room, last_position)
+        elif dirty[1] > last_position[1]:
+            walking_left(room, last_position)
+    elif dirty[1] == last_position[1]:
+        if dirty[0] > last_position[0]:
+            walking_up(room, last_position)
+        elif dirty[0] > last_position[0]:
+            walking_down(room, last_position)
+    # voltar para posição antes do cleaning
 
 
 def finish_cleaning(room, room_numb, robot_position):
-    if robot_position == (room_numb - 1, len(room[room_numb - 1])):
-        return stamp
-
+    if room_numb % 2 == 0:
+        pos = robot_position
+        for _ in range(len(room[0]) - 1):
+            room[pos[0]][pos[1] + 1] = "r"
+            room[pos[0]][pos[1]] = "."
+            pos = (pos[0], pos[1] + 1)
+            stamp(room)
 
 
 def stamp(room):
-    return print(room)
+    for i in range(len(room[0])):
+        print(*room[i])
+    print()
 
 
-def walking_left():
-    pass
+def walking_right(room, robot_position):
+    room[robot_position[0]][robot_position[1] + 1] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
 
 
-def walking_up():
-    pass
+def walking_up(room, robot_position):
+    room[robot_position[0] - 1][robot_position[1]] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
 
 
-def walking_right():
-    pass
+def walking_left(room, robot_position):
+    room[robot_position[0]][robot_position[1] - 1] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
 
 
-def walking_low():
-    pass
+def walking_down(room, robot_position):
+    room[robot_position[0] + 1][robot_position[1]] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
 
 
-def walking(room, robot_position):
+def scanner(room, robot_position):
     if robot_position[0] % 2 == 0:
         if (robot_position[1] + 1) < len(room[0]):
-            room[robot_position[0]][robot_position[1] + 1] = "r"
-            room[robot_position[0]][robot_position[1]] = "."
-            # mudar a localizaçã do robo .
+            walking_right(room, robot_position)
+            robot_position = location(robot_position, 0, 1)
         else:
-            room[robot_position[0] + 1][robot_position[1]] = "r"
-            room[robot_position[0]][robot_position[1]] = "."
-    else:
-        if (robot_position[1] - 1) < 0:
-            room[robot_position[1] - 1] = "r"
-            robot_position[1] = "."
+            walking_down(room, robot_position)
+            robot_position = location(robot_position, 1, 0)
+    elif robot_position[0] % 2 != 0:
+        if (robot_position[1] - 1) >= 0:
+            walking_left(room, robot_position)
+            robot_position = location(robot_position, 0, -1)
         else:
-            room[robot_position[0] + 1] = "r"
-            robot_position[0] = "."
-    return room
+            walking_down(room, robot_position)
+            robot_position = location(robot_position, +1, 0)
+    return room, robot_position
 
 
-def location(room, robot_position):
-    # na posição em ue moveu-se o r,
-    # está a localização do robot_position 
-    pass
+def location(robot_position, a, b):
+    return (robot_position[0] + a, robot_position[1] + b)
 
 
-def main ():
+def main():
     room_numb = int(input())
-    #line > 0
     room = []
     for _ in range(room_numb):
         room.append(input().split())
-    print(room)
     robot_position = (0, 0)
-    # salvar última posição do robô antes de entrar no modo limpeza
-    #
+    stamp(room)
+
+    while True:
+        dirty, last_position = search(room, robot_position, room_numb)
+        # dirty_position = [] # problema
+        # dirty_position.append(dirty)
+        if dirty is not None:
+            cleaning(robot_position, room, dirty, room_numb)
+            dirti, posi = search(room, dirty, room_numb)
+            # fazer um loop aqui que vai meter um search and cleaning eterno
+            # vai dar problema com dirty
+            while dirti is not None:
+                cleaning(robot_position, room, dirti, room_numb)
+                dirti, posi = search(room, dirti, room_numb)
+            while dirti is None:
+                back_scanner(dirty, last_position, room, room_numb)
+                dirti, posi = search(room, dirty, room_numb) # this dirty / posi
+        room, robot_position = scanner(room, last_position)
+        stamp(room)
+        break # algo em relação a função scanner
+
+    finish_cleaning(room, room_numb, robot_position)
+
+
+if __name__ == "__main__":
+    main()
 
 # salvar a posição que tem sujeira
 # mover até ela pela ordem que ele anda
