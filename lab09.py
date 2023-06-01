@@ -11,7 +11,6 @@ def search(room, robot_position, room_numb):
                     return dirty, robot_position
     return None, None
 
-
 # salvar a posição da sujeira e mandar ele ir atras
 def cleaning(robot_position, room, dirty, room_numb):
     room[dirty[0]][dirty[1]] = "r"
