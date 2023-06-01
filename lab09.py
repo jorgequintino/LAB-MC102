@@ -104,10 +104,8 @@ def main():
     robot_position = (0, 0)
     stamp(room)
 
-    while True:  # maybe figure out a better condition
+    while True:
         dirty, last_position = search(room, robot_position, room_numb)
-        # dirty_position = [] # problema
-        # dirty_position.append(dirty)
         if dirty is not None:
             cleaning(robot_position, room, dirty, room_numb)
             dirti, posi = search(room, dirty, room_numb)
