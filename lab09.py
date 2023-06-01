@@ -97,7 +97,7 @@ def main():
     robot_position = (0, 0)
     stamp(room)
 
-    while True:
+    while True: # maybe figure out a better condition
         dirty, last_position = search(room, robot_position, room_numb)
         # dirty_position = [] # problema
         # dirty_position.append(dirty)
@@ -111,7 +111,7 @@ def main():
                 dirti, posi = search(room, dirti, room_numb)
             while dirti is None:
                 back_scanner(dirty, last_position, room, room_numb)
-                dirti, posi = search(room, dirty, room_numb) # this dirty / posi
+                dirti, posi = search(room, dirty, room_numb)  # this dirty / posi
         room, robot_position = scanner(room, last_position)
         stamp(room)
         break # algo em relação a função scanner
