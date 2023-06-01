@@ -1,175 +1,75 @@
+# Cleaning Room Robot From Smaug
+
+
+def search(room, robot_position, room_numb):
+    scanning = [(0, -1), (-1, 0), (0, +1), (+1, 0)]
+    for position in scanning:
+        dirty = robot_position + position
+        if dirty[1] >= 0 and dirty[1] < len(room[0]):
+            if dirty[0] >= 0 and dirty[0] < room_numb:
+                if room[dirty[0]][dirty[1]] == "o":
+                    return dirty, robot_position
+    return None, None
+
 <<<<<<< HEAD
+
+=======
+# def jasj():
+#     point = search(room, robot_position, room_numb)
+#     if search(room, robot_position, room_numb) == none:
+#         scanner(room, robot_position)
+#     elif search(room, robot_position, room_numb) != none:
+#         cleaning(point)
+
+#     #back_sc = robot_position
+
+#     if dirt != []:
+#         cleaning() #dirt[0]
+#         search()
+
+
+        
+>>>>>>> 34527f48e6249311b7a74571087aec858323da69
+# salvar a posição da sujeira e mandar ele ir atras
+def cleaning(robot_position, room, dirty, room_numb):
+    room[dirty[0]][dirty[1]] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+
+
+def back_scanner(dirty, last_position, room, room_numb):
 <<<<<<< HEAD
-# def vence(kae, movies):
-#     point_winner = 0
-#     empate = False
-#     dit = []
-#     for movies_name in kae:
-#         if kae[movies_name][0] > point_winner:
-#             empate = False
-#             point_winner = kae[movies_name][0]
-#             winner = movies_name
-#             movies[movies_name][0] += 1
+    if dirty[1] != last_position[1]:
+        if dirty[1] < last_position[1]:
+            walking_right(room, last_position)
+        elif dirty[1] > last_position[1]:
+            walking_left(room, last_position)
+    elif dirty[1] == last_position[1]:
+        if dirty[0] > last_position[0]:
+            walking_up(room, last_position)
+        elif dirty[0] > last_position[0]:
+            walking_down(room, last_position)
+    # voltar para posição antes do cleaning
+=======
+    x = dirty[1] - last_position[1]
+    y = dirty[0] - last_position[0]
+    if dirty[1] < last_position[1]:
+        for i in range((-1)*x):
+            walking_right(room, last_position)
 
-#         if kae[movies_name][0] == point_winner:
-#             empate = True
-#             dit.append(movies_name)
-#     if empate is True:
-#         aval = 0
-#         for i in dit:
-#             if kae[movies_name][1] > aval:
-#                 winner = movies_name
-#             if not kae[movies_name][1] > aval:
-#                 aval = kae[movies_name]
-#     return winner
-
-
-
-#     # if empate == True:
-#     #     aval = []
-#     #     x = []
-#     #     for movies_name in kae:
-#     #         if kae[movies_name][0] == point_winner:
-#     #             aval.append(kae[movies_name][1])
-#     #             x.append(movies_name)
-#     #     max_aval = max(aval)
-#     #     for i in range(len(aval)):
-#     #         if aval[i] == max_aval:
-#     #             winner = x[i]
-#     return winner
-
-
-# def category(category, movies, D, movies_name):
-#     kae = {}
-#     for movies_name in D[category].keys():
-#         points = int(sum(D[category][movies_name]) / len(D[category][movies_name]))
-#         movies[movies_name][1] += points
-#         kae[movies_name] = [points, int(len(D[category]))]
-#         #kae[movies_name][points] = int(len(D[category])[movies_name])
-#     return vence(filme, points, qtd_av, movies, movies_name)
-
-
-# def main ():
-#     f = int(input())
-#     movies = {}
-#     for _ in range(f):
-#         movies_name = input()
-#         # movies= {nome: [qtd premios, S média]}
-#         movies[movies_name] = [0, 0]
-#     Q = int(input())
-#     D = {}
-#     D["filme que causou mais bocejos"] = {}
-#     D["filme que foi mais pausado"] = {}
-#     D["filme que mais revirou olhos"] = {}
-#     D["filme que não gerou discussão nas redes sociais"] = {}
-#     D["enredo mais sem noção"] = {}
-#     # {category : {filme avaliado : [ponto1, ponto2 (...)]}}
-#     for _ in range(Q):
-#         valuer, category, movie_valued, score = input().split(sep=", ")
-#         if movie_valued not in D[category].keys():
-#             D[category][movie_valued] = [int(score)]
-#         else:
-#             D[category][movie_valued].append(int(score))
+    elif dirty[1] > last_position[1]:
+        for _ in range(x):
+            walking_left(room, last_position)
     
-
-# if __name__ == "__main__":
-#     main()
-
-# win = ["titanic", "avenger", "starwars"]
-# print("\n\nhsddja")
-
-# f = int(input())
-# movies = {}
-# for _ in range(f):
-#     movies_name = input()
-#     # movies= {nome: [qtd premios, S média, qtd de avaliação]}
-#     movies[movies_name] = [0, 0, 0]
-# Q = int(input())
-# D = {}
-# D["filme que causou mais bocejos"] = {}
-# D["filme que foi mais pausado"] = {}
-# D["filme que mais revirou olhos"] = {}
-# D["filme que não gerou discussão nas redes sociais"] = {}
-# D["enredo mais sem noção"] = {}
-# # {category : {filme avaliado : [ponto1, ponto2 (...)]}}
-# #D[category].keys()
-# for _ in range(Q):
-#     valuer, category, movie_valued, score = input().split(sep=", ")
-#     if movie_valued not in D[category].keys():
-#         D[category][movie_valued] = [int(score)]
-#     else:
-#         D[category][movie_valued].append(int(score))
-# print(D)
-
-# D = {"valor" : [0, 2]}
-# D["valor"] = [1, 3]
-# print(D)
-
-# d = ["kfsd", "cmk"]
-# #d.append("key")
-# str(d)
-# print(d)
-
-d = ["ds", "2" , "3"]
-x = ""
-for i in d:
-    x += i + ", "
-x = x[:-2]
-<<<<<<< HEAD
-
-
-print(x)
-=======
-print(x)
-=======
-=======
-def walking_left(room, robot_position):
-    room[robot_position[0]][robot_position[1] + 1] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
-
-
-def walking_up():
+        if dirty[0] > last_position[0]:
+            for _ in range(y):
+                walking_up()
+        
+        elif dirty[0] > last_position[0]:
+            for _ in range(y):
+                walking_down(room, last_position)
+    # voltar para posição antes do cleaning
     pass
-
-
-def walking_right(room, robot_position):
-    room[robot_position[0]][robot_position[1] - 1] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
-
-
-def walking_low(room, robot_position):
-    room[robot_position[0] + 1][robot_position[1]] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
-
-
-def location(robot_position, a, b):
-    robot_position = (robot_position[0] + a, robot_position[1] + b)
-    return robot_position
-
-def stamp(room):
-    for i in range(len(room[0])):
-        print(*room[i])
-    print()
-
-
->>>>>>> 8022e0b (dsvs)
-def walking(room, robot_position):
-    if robot_position[0] % 2 == 0:
-        if (robot_position[1] + 1) < len(room[0]):
-            walking_left(room, robot_position)
-            robot_position = location(robot_position, 0, 1)
-            # mudar a localização do robo .
-        else:
-            walking_low(room, robot_position)
-            robot_position = location(robot_position, 1, 0)
-    elif robot_position[0] % 2 != 0:
-        if (robot_position[1] - 1) >= 0:
-            walking_right(room, robot_position)
-            robot_position = location(robot_position, 0, -1)
-        else:
-            walking_low(room, robot_position)
-            robot_position = location(robot_position, +1, 0)
-    return room, robot_position
+>>>>>>> 34527f48e6249311b7a74571087aec858323da69
 
 
 def finish_cleaning(room, room_numb, robot_position):
@@ -182,23 +82,114 @@ def finish_cleaning(room, room_numb, robot_position):
             stamp(room)
 
 
+def stamp(room):
+    for i in range(len(room[0])):
+        print(*room[i])
+    print()
+
+
+def walking_right(room, robot_position):
+    room[robot_position[0]][robot_position[1] + 1] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+
+
+def walking_up(room, robot_position):
+    room[robot_position[0] - 1][robot_position[1]] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+
+
+def walking_left(room, robot_position):
+    room[robot_position[0]][robot_position[1] - 1] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+
+
+def walking_down(room, robot_position):
+    room[robot_position[0] + 1][robot_position[1]] = "r"
+    room[robot_position[0]][robot_position[1]] = "."
+
+
+def scanner(room, robot_position):
+    if robot_position[0] % 2 == 0:
+        if (robot_position[1] + 1) < len(room[0]):
+            walking_right(room, robot_position)
+            robot_position = location(robot_position, 0, 1)
+        else:
+            walking_down(room, robot_position)
+            robot_position = location(robot_position, 1, 0)
+    elif robot_position[0] % 2 != 0:
+        if (robot_position[1] - 1) >= 0:
+            walking_left(room, robot_position)
+            robot_position = location(robot_position, 0, -1)
+        else:
+            walking_down(room, robot_position)
+            robot_position = location(robot_position, +1, 0)
+    return room, robot_position
+
+
+def location(robot_position, a, b):
+    return (robot_position[0] + a, robot_position[1] + b)
+
+# last
+
 def main():
     room_numb = int(input())
-    #line > 0
+<<<<<<< HEAD
+=======
+    # line > 0
+>>>>>>> 34527f48e6249311b7a74571087aec858323da69
     room = []
     for _ in range(room_numb):
         room.append(input().split())
-    stamp(room)
-    #print()
     robot_position = (0, 0)
+    stamp(room)
+
+    while True:
+        dirty, last_position = search(room, robot_position, room_numb)
+        # dirty_position = [] # problema
+        # dirty_position.append(dirty)
+        if dirty is not None:
+<<<<<<< HEAD
+            cleaning(robot_position, room, dirty, room_numb)
+            dirti, posi = search(room, dirty, room_numb)
+            # fazer um loop aqui que vai meter um search and cleaning eterno
+            # vai dar problema com dirty
+            while dirti is not None:
+                cleaning(robot_position, room, dirti, room_numb)
+                dirti, posi = search(room, dirti, room_numb)
+            while dirti is None:
+                back_scanner(dirty, last_position, room, room_numb)
+                dirti, posi = search(room, dirty, room_numb) # this dirty / posi
+        room, robot_position = scanner(room, last_position)
+        stamp(room)
+        break # algo em relação a função scanner
+
+    finish_cleaning(room, room_numb, robot_position)
+=======
+            #for dirty in dirty_position: while, break se dirty is none
+                cleaning(robot_position, room, dirty, room_numb)
+                # fazer um loop aqui que vai meter um search and cleaning eterno
+                search()
+                if l == "chamar sujeira":
+                    cleaning()
+                    search()
+                elif l == "clean":
+                    back_scanner(dirty, last_position, room, room_numb)
+        scanner(room, last_position)
+        stamp(room)
+        # finish_cleaning()
+        # criar condicionais para chamar essa função
+
     # for _ in range(len(room[0])*room_numb - 1):
-    #     room, robot_position = walking(room, robot_position)
+    #     room, robot_position = scanner(room, robot_position)
     #     stamp(room)
     # finish_cleaning(room, room_numb, robot_position)
-    while True:
-        search()
+>>>>>>> 34527f48e6249311b7a74571087aec858323da69
+
 
 if __name__ == "__main__":
     main()
->>>>>>> bf87f75 (hfg)
->>>>>>> f7a805138a938d8dcf32cbad6514369108d57018
+
+# salvar a posição que tem sujeira
+# mover até ela pela ordem que ele anda
+# separar em diferentes funções de movimento
+# TESTING 
