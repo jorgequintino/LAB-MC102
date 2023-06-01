@@ -11,25 +11,6 @@ def search(room, robot_position, room_numb):
                     return dirty, robot_position
     return None, None
 
-<<<<<<< HEAD
-
-=======
-# def jasj():
-#     point = search(room, robot_position, room_numb)
-#     if search(room, robot_position, room_numb) == none:
-#         scanner(room, robot_position)
-#     elif search(room, robot_position, room_numb) != none:
-#         cleaning(point)
-
-#     #back_sc = robot_position
-
-#     if dirt != []:
-#         cleaning() #dirt[0]
-#         search()
-
-
-        
->>>>>>> 34527f48e6249311b7a74571087aec858323da69
 # salvar a posição da sujeira e mandar ele ir atras
 def cleaning(robot_position, room, dirty, room_numb):
     room[dirty[0]][dirty[1]] = "r"
@@ -37,7 +18,6 @@ def cleaning(robot_position, room, dirty, room_numb):
 
 
 def back_scanner(dirty, last_position, room, room_numb):
-<<<<<<< HEAD
     if dirty[1] != last_position[1]:
         if dirty[1] < last_position[1]:
             walking_right(room, last_position)
@@ -49,27 +29,6 @@ def back_scanner(dirty, last_position, room, room_numb):
         elif dirty[0] > last_position[0]:
             walking_down(room, last_position)
     # voltar para posição antes do cleaning
-=======
-    x = dirty[1] - last_position[1]
-    y = dirty[0] - last_position[0]
-    if dirty[1] < last_position[1]:
-        for i in range((-1)*x):
-            walking_right(room, last_position)
-
-    elif dirty[1] > last_position[1]:
-        for _ in range(x):
-            walking_left(room, last_position)
-    
-        if dirty[0] > last_position[0]:
-            for _ in range(y):
-                walking_up()
-        
-        elif dirty[0] > last_position[0]:
-            for _ in range(y):
-                walking_down(room, last_position)
-    # voltar para posição antes do cleaning
-    pass
->>>>>>> 34527f48e6249311b7a74571087aec858323da69
 
 
 def finish_cleaning(room, room_numb, robot_position):
@@ -133,10 +92,6 @@ def location(robot_position, a, b):
 
 def main():
     room_numb = int(input())
-<<<<<<< HEAD
-=======
-    # line > 0
->>>>>>> 34527f48e6249311b7a74571087aec858323da69
     room = []
     for _ in range(room_numb):
         room.append(input().split())
@@ -148,7 +103,6 @@ def main():
         # dirty_position = [] # problema
         # dirty_position.append(dirty)
         if dirty is not None:
-<<<<<<< HEAD
             cleaning(robot_position, room, dirty, room_numb)
             dirti, posi = search(room, dirty, room_numb)
             # fazer um loop aqui que vai meter um search and cleaning eterno
@@ -164,26 +118,6 @@ def main():
         break # algo em relação a função scanner
 
     finish_cleaning(room, room_numb, robot_position)
-=======
-            #for dirty in dirty_position: while, break se dirty is none
-                cleaning(robot_position, room, dirty, room_numb)
-                # fazer um loop aqui que vai meter um search and cleaning eterno
-                search()
-                if l == "chamar sujeira":
-                    cleaning()
-                    search()
-                elif l == "clean":
-                    back_scanner(dirty, last_position, room, room_numb)
-        scanner(room, last_position)
-        stamp(room)
-        # finish_cleaning()
-        # criar condicionais para chamar essa função
-
-    # for _ in range(len(room[0])*room_numb - 1):
-    #     room, robot_position = scanner(room, robot_position)
-    #     stamp(room)
-    # finish_cleaning(room, room_numb, robot_position)
->>>>>>> 34527f48e6249311b7a74571087aec858323da69
 
 
 if __name__ == "__main__":
