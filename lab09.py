@@ -136,14 +136,15 @@ def main():
             # print(dirty)
             cleaning_mode = True
             robot_position = cleaning(robot_position, room, dirty)
-            dirty, robot_position = search(room, dirty, room_numb)
             stamp(room)
+            dirty, robot_position = search(room, dirty, room_numb)
+            # cleaning_mode = 
             cleaning_mode = check_last_position(last_position, room, robot_position, room_numb)
         while dirty is None and last_position != robot_position and cleaning_mode is True:
             # print("dirty is none")
             robot_position = back_scanner(last_position, room, robot_position)
-            dirty, robot_position = search(room, robot_position, room_numb)
             stamp(room)
+            dirty, robot_position = search(room, robot_position, room_numb)
         if cleaning_mode is False:
             room, robot_position, finish_scanning = scanner(room, robot_position, room_numb)
             if finish_scanning is True:
@@ -155,3 +156,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
