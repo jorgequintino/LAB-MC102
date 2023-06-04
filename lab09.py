@@ -51,10 +51,8 @@ def scanner(room, robot_position, room_numb):
 def search(room, robot_position, room_numb):
 
     scanning = [(0, -1), (-1, 0), (0, +1), (+1, 0)]
-    perimeter = []
     for position in scanning:
         dirty = (robot_position[0] + position[0], robot_position[1] + position[1])
-        perimeter.append(dirty)
         if dirty[1] >= 0 and dirty[1] < len(room[0]):
             if dirty[0] >= 0 and dirty[0] < room_numb:
                 # stamp(room)
@@ -113,9 +111,6 @@ def finish_cleaning(room, room_numb, robot_position):
     if room_numb % 2 == 0:
         for _ in range(len(room[0]) - 1):
             robot_position = walking_right(room, robot_position)
-            # room[robot_position[0]][robot_position[1] + 1] = "r"
-            # room[robot_position[0]][robot_position[1]] = "."
-            # pos = (pos[0], pos[1] + 1)
             stamp(room)
 
 
