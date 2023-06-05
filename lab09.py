@@ -55,13 +55,12 @@ def search(room, robot_position, room_numb):
         dirty = (robot_position[0] + position[0], robot_position[1] + position[1])
         if dirty[1] >= 0 and dirty[1] < len(room[0]):
             if dirty[0] >= 0 and dirty[0] < room_numb:
-                # stamp(room)
                 if room[dirty[0]][dirty[1]] == "o":
                     return dirty, robot_position
     return None, robot_position
 
 
-def cleaning(robot_position, room, dirty): 
+def cleaning(robot_position, room, dirty):
     room[dirty[0]][dirty[1]] = "r"
     room[robot_position[0]][robot_position[1]] = "."
     return location(dirty, 0, 0)
@@ -79,7 +78,6 @@ def back_scanner(last_position, room, robot_position):
         elif robot_position[0] > last_position[0]:
             robot_position = walking_down(room, robot_position)
     return robot_position
-    # voltar para posição antes do cleaning
 
 
 def check_scanner(room, robot_position, room_numb):
@@ -88,22 +86,18 @@ def check_scanner(room, robot_position, room_numb):
             return (robot_position[0], robot_position[1] + 1)
         elif (robot_position[1]) == len(room[0]) - 1 and robot_position[0] != room_numb - 1:
             return (robot_position[0] + 1, robot_position[1])
-            # robot_position = walking_down(room, robot_position)
     elif robot_position[0] % 2 != 0:
         if (robot_position[1] - 1) >= 0:
             return (robot_position[0], robot_position[1] - 1)
-            # robot_position = walking_left(room, robot_position)
         elif (robot_position[1]) == 0 and robot_position[0] != room_numb - 1:
             return (robot_position[0] + 1, robot_position[1])
-            # robot_position = walking_down(room, robot_position)
 
 
 def check_last_position(last_position, room, robot_position, room_numb):
     position = check_scanner(room, last_position, room_numb)
-    # arrumar as funções de qalking
     if robot_position == position:
         return False
-    elif robot_position != position:
+    else:
         return True
 
 
@@ -127,37 +121,35 @@ def main():
         room.append(input().split())
     robot_position = (0, 0)
     stamp(room)
-    
+    scanning_mode = False
+    last_scanned_position = (0, 0)
+    cleaning_mode = False
     while True:
-        cleaning_mode = False
         dirty, initial_position = search(room, robot_position, room_numb)
-        last_position = initial_position
-        cleaning_mode = check_last_position(initial_position, room, dirty, room_numb)
-        # print("cansei")
-        while dirty is not None and cleaning_mode is True:
-            # print(dirty)
-            cleaning_mode = True
+        if dirty:
+            cleaning_mode = check_last_position(initial_position, room, dirty, room_numb)
+        if not cleaning_mode:
+            scanning_mode = True
+        if scanning_mode:
+            last_scanned_position = initial_position
+        while dirty is not None and cleaning_mode:
+            scanning_mode = False
             robot_position = cleaning(robot_position, room, dirty)
             stamp(room)
             dirty, robot_position = search(room, dirty, room_numb)
-            if dirty is not None:
-                last_position = robot_position
-            cleaning_mode = check_last_position(last_position, room, robot_position, room_numb)
-        while dirty is None and initial_position != robot_position and cleaning_mode is True:
-            # print("dirty is none")
-            robot_position = back_scanner(initial_position, room, robot_position)
+        while dirty is None and last_scanned_position != robot_position and cleaning_mode is True:
+            robot_position = back_scanner(last_scanned_position, room, robot_position)
             stamp(room)
             dirty, robot_position = search(room, robot_position, room_numb)
-        if cleaning_mode is False:
-
+            if last_scanned_position == robot_position:
+                scanning_mode = True
+        if scanning_mode:
             room, robot_position, finish_scanning = scanner(room, robot_position, room_numb)
             if finish_scanning is True:
                 break
             stamp(room)
-
     finish_cleaning(room, room_numb, robot_position)
 
 
 if __name__ == "__main__":
     main()
-

@@ -1,4 +1,4 @@
-def function():
+def damage):
     pass
 
 
@@ -14,9 +14,9 @@ def main():
     for _ in range(machines):
         # lista é melhor
         live_points, attack_points, parts_quant = input(sep=" ")
-        # um dicionário {machines: [live_points, attack_points, parts_quant]}
-    for _ in range(parts_quant):
-        body_part, weaknees, max_damage, x_coordenate, y_coordenate = input(sep=", ")
-        # parts {body_part: [weaknees, max_damage, (x_coordenate, y_coordenate)]}
-    
+        # um dicionário {machines(número): [live_points, attack_points, parts_quant]}
+        for _ in range(parts_quant):
+            body_part, weaknees, max_damage, x_coordenate, y_coordenate = input(sep=", ")
+            # parts {body_part: [weaknees, max_damage, (x_coordenate, y_coordenate)]}
+        target, body_part, arrow_type, fx, fy = input(sep=", ")
     # confuso a parte final da entrada
