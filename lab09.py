@@ -255,11 +255,11 @@ def main():
     stamp(room)
     while True:
         dirty, initial_position = search(room, robot_position, room_numb)
-        if dirty:  # se há sujeira, verifica se está na estrutura de escaneamento ou não.
+        if dirty is not None:  # se há sujeira, verifica se está na estrutura de escaneamento ou não.
             cleaning_mode = check_last_position(initial_position, room, dirty, room_numb)
-        if not cleaning_mode:  # Se não está no modo limpeza, ativa o modo escaneamento.
+        if cleaning_mode is not True:  # Se não está no modo limpeza, ativa o modo escaneamento.
             scanning_mode = True
-        if scanning_mode: # No modo escaneamento, salVa a última posição escaneada
+        if scanning_mode is True:  # No modo escaneamento, salVa a última posição escaneada
             last_scanned_position = initial_position
         while dirty is not None and cleaning_mode:
             scanning_mode = False
@@ -272,7 +272,7 @@ def main():
             dirty, robot_position = search(room, robot_position, room_numb)
             if last_scanned_position == robot_position:
                 scanning_mode = True
-        if scanning_mode:
+        if scanning_mode is True:
             room, robot_position, finish_scanning = scanner(room, robot_position, room_numb)
             if finish_scanning is True:
                 break
