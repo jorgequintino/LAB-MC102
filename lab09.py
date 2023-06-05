@@ -1,17 +1,17 @@
 # Cleaning Room Robot From Smaug
 
 
-def location(robot_position, a, b):
+def location(robot_position, line, column):
     '''Altera a localização do robô.
     Parâmetros:
     argumentos:
         robot_position (tuple)
-        a (int)
-        b (int)
-    Retorno:
+        line (int)
+        column (int)
+    retorno:
         robot_position (tuple)
         '''
-    return (robot_position[0] + a, robot_position[1] + b)
+    return (robot_position[0] + line, robot_position[1] + column)
 
 
 def walking_right(room, robot_position):
@@ -21,7 +21,7 @@ def walking_right(room, robot_position):
     argumentos:
         room (list)
         robot_position (tuple)
-    Retorno:
+    retorno:
         robot_position (tuple)
         '''
     room[robot_position[0]][robot_position[1] + 1] = "r"
@@ -36,7 +36,7 @@ def walking_up(room, robot_position):
     argumentos:
         room (list)
         robot_position (tuple)
-    Retorno:
+    retorno:
         robot_position (tuple)
         '''
     room[robot_position[0] - 1][robot_position[1]] = "r"
@@ -51,7 +51,7 @@ def walking_left(room, robot_position):
     argumentos:
         room (list)
         robot_position (tuple)
-    Retorno:
+    retorno:
         robot_position (tuple)
         '''
     room[robot_position[0]][robot_position[1] - 1] = "r"
@@ -66,7 +66,7 @@ def walking_down(room, robot_position):
     argumentos:
         room (list)
         robot_position (tuple)
-    Retorno:
+    retorno:
         robot_position (tuple)
         '''
     room[robot_position[0] + 1][robot_position[1]] = "r"
@@ -86,7 +86,7 @@ def scanner(room, robot_position, room_numb):
         room (list)
         robot_position (tuple)
         room_numb (int)
-    Retorno:
+    retorno:
         room (list)
         robot_position (tuple)
         finish_scanning (bool)
@@ -117,7 +117,7 @@ def search(room, robot_position, room_numb):
         room (list)
         robot_position (tuple)
         room_numb (int)
-    Retorno:
+    retorno:
         dirty (tuple | None)
         robot_position (tuple)
     '''
@@ -139,7 +139,7 @@ def cleaning(robot_position, room, dirty):
         robot_position (tuple)
         room (list)
         dirty (tuple)
-    Retorno:
+    retorno:
         robot_position (tuple)
     '''
     room[dirty[0]][dirty[1]] = "r"
@@ -157,7 +157,7 @@ def back_scanner(last_scanned_position, room, robot_position):
         last_position (tuple)
         room (list)
         robot_position (tuple)
-    Retorno:
+    retorno:
         robot_position (tuple)
         '''
     if robot_position[1] != last_scanned_position[1]:
@@ -181,7 +181,7 @@ def check_scanner(room, robot_position, room_numb):
         room (list)
         robot_position (tuple)
         room_numb (int)
-    Retorno:
+    retorno:
         robot_position (tuple)
         '''
     if robot_position[0] % 2 == 0:
@@ -205,8 +205,8 @@ def check_last_position(last_position, room, robot_position, room_numb):
         room (list)
         robot_position (tuple)
         room_numb (int)
-    Retorno:
-        
+    retorno:
+        boolean
         '''
     position = check_scanner(room, last_position, room_numb)
     if robot_position == position:
@@ -224,7 +224,8 @@ def finish_cleaning(room, room_numb, robot_position):
         room (list)
         room_numb (int)
         robot_position (tuple)
-    Retorno:
+    retorno
+        None
         '''
     if room_numb % 2 == 0:
         for _ in range(len(room[0]) - 1):
@@ -237,7 +238,8 @@ def stamp(room):
     Parâmetros:
     argumentos:
         room (list)
-    '''
+    retorno:
+        None'''
     for i in range(len(room)):
         print(*room[i])
     print()
@@ -257,9 +259,9 @@ def main():
         dirty, initial_position = search(room, robot_position, room_numb)
         if dirty is not None:  # se há sujeira, verifica se está na estrutura de escaneamento ou não.
             cleaning_mode = check_last_position(initial_position, room, dirty, room_numb)
-        if cleaning_mode is not True:  # Se não está no modo limpeza, ativa o modo escaneamento.
+        if cleaning_mode is not True:  # Caso não esteja no modo limpeza, ativa-se o modo escaneamento.
             scanning_mode = True
-        if scanning_mode is True:  # No modo escaneamento, salVa a última posição escaneada
+        if scanning_mode is True:  # No modo escaneamento, salva a última posição escaneada.
             last_scanned_position = initial_position
         while dirty is not None and cleaning_mode:
             scanning_mode = False
