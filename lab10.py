@@ -1,5 +1,16 @@
-def damage):
-    pass
+def damage(max_damage, cx, fx):
+    # same type of arrow
+    if (cx - fx) < 0:
+        x = (-1)*(cx - fx)
+    elif (cx - fx) >= 0:
+        x = (cx - fx)
+    if (cy - fy) < 0:
+        y = (-1)*(cy - fy)
+    if (cy - fy) >= 0:
+        y = (cy - fy)
+    damage = max_damage - (x + y)
+    # build for different types of arrows
+    return damage
 
 
 def main():
