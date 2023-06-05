@@ -120,10 +120,10 @@ def main():
     for _ in range(room_numb):
         room.append(input().split())
     robot_position = (0, 0)
-    stamp(room)
-    scanning_mode = False
     last_scanned_position = (0, 0)
+    scanning_mode = False
     cleaning_mode = False
+    stamp(room)
     while True:
         dirty, initial_position = search(room, robot_position, room_numb)
         if dirty:
