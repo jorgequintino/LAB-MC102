@@ -43,7 +43,8 @@ def aloy_attack(target, body_part, monster, arrows, arrow_type, fx, fy, li, crit
 
 
 def main():
-    aloy_life_points = max_life = int(input())
+    max_life = int(input())
+    aloy_life_points = max_life
     arrow_amount = input().split()
     arrows = {}
     # arrows_listing = []
@@ -75,28 +76,35 @@ def main():
                 # parts {body_part: [weaknees, max_damage, (x_coordenate, y_coordenate)]}
 
         combat = True
-        while combat:
-            target, body_part, arrow_type, fx, fy = input().split(sep=", ")
-            print("Combate", i, ", vida =", aloy_life_points)
+        print("Combate",i, ", vida =", aloy_life_points)
+        machines_defeated = 0
+        aloy_alive = True
 
+        while combat is True:
+            target, body_part, arrow_type, fx, fy = input().split(sep=", ")
+            target = int(target)
             # aloy_attack(target, body_part, arrow_type, fx, fy)
-            damage, critics = aloy_attack(target, body_part, monster, arrows, arrow_type, int(fx), int(fy), li, critics)
+            damage, critics = aloy_attack(int(target), body_part, monster, arrows, arrow_type, int(fx), int(fy), li, critics)
             machines[target][0] -= damage
             machines[target][0] = max(0, machines[target][0])
             if machines[target][0] == 0:
                 print("Máquina", target, "derrotada.")
+                machines_defeated += 1
 
-            if monster == []:
+            if machines_defeated == machines_combat:
                 print("Vida após o combate =", aloy_life_points)
                 print("Flechas utilizadas:")
                 for i in arrows:
-                    print("-", i, ": ", arrows[i][1], "/", arrows[i][0])
+                    if arrows[i][1] != 0:
+                        print("-", i,":", arrows[i][1],"/",arrows[i][0])
                 print("Críticos acertados:")
                 if not critics == []:
-                    for i in critics:
-                        print("Máquina", i, ":")
+                    for i in range(len(critics)):
+                        print("Máquina", i,":")
+
                         for m in critics[0]:
-                            print("-", m, ":", li[m][0], "x")
+                            if critics[0][m] != 0:
+                                print("-", m,":", li[m],"x")
 
                 combat = False
 
@@ -120,5 +128,9 @@ def main():
 
         i += 1
 
+if __name__ == "__main__":
+    main()
+
     # quando as flechas acabaram
     # quando ela termina viva, mas ainda tem outros cobtes para fazer
+    # checar dano negativo

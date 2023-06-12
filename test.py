@@ -1,2 +1,3 @@
-x, u, k = input().split()
-print(x)
+# x, u, k = input().split()
+# x = int(x)
+# print(x)
