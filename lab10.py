@@ -20,21 +20,24 @@ def foco():
     pass
 
 
-def life_points():
+def life():
     # perde o os pontos de ataque
-
-
-
-def living(max_lives):
-    # chamar life points e somar com extra
-    extra_lives = max_lives / 2
-
     pass
 
 
-def attack():
-    # chamar damage
+def renew_life(max_lives):
+    # chamar life points e somar com extra
+    extra_lives = max_lives / 2
+    pass
+
+
+def machines_attack():
     # chamar life_points
+    pass
+
+
+def aloy_attack():
+    # chamar damage
     pass
 
 
@@ -49,15 +52,14 @@ def main():
     amount_monsters = int(input())
     machines = {}
     machines_parts = {}
-    aloy_attack = {}
+    aloy_set = {}
     monster = []
-    for i in range(amount_monsters): # While pode ser melhor
+    for i in range(amount_monsters):  # While pode ser melhor
         machines_combat = int(input())        # lista é melhor
         for m in range(machines_combat):
             machine_details = input(sep=" ")
-            machines[m] = {}
-            machines[m][machine_details]
-            # um dicionário {machines(número): [live_points, attack_points, parts_quant]}
+            machines[m] = machine_details
+            # maquinas {machines(número): [live_points, attack_points, parts_quant]}
             for _ in range(machines[m][machine_details][2]):
                 body_part, weaknees, max_damage, x_coordenate, y_coordenate = input().split(sep=", ")
                 machines_parts[body_part] = [weaknees, max_damage, (x_coordenate, y_coordenate)]
@@ -65,10 +67,12 @@ def main():
         monster.append(machines)
         monster.append(machines_parts)
         target, body_part, arrow_type, fx, fy = input().split(sep=", ")
-        aloy = {max_lives, arrows}
+        aloy_set[target] = [body_part, arrow_type, (fx, fy)]
+        aloy = {max_lives, arrows, aloy_set}
 
         # chamar foco
-        # chamar ataque aqui
+        # chamar ataque aloy
+        # chamar ataque maquinas
         # chamar living
 
 
