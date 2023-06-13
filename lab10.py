@@ -6,9 +6,11 @@ def damage(target, body_part, arrow_type, monster, attack_place):  # tá nesse d
     critic_place = monster[target][body_part][2]
     arrow_critic = monster[target][body_part][0]
     if arrow_type == arrow_critic or monster[target][body_part][0] == "todas":
-        damage = monster[target][body_part][1] - (abs(critic_place[0] - attack_place[0]) + abs(critic_place[1] - attack_place[1]))  # cx e fx
+        damage = monster[target][body_part][1] - (abs(critic_place[0] - attack_place[0]) + abs(critic_place[1] - attack_place[1])) 
+        damage = max(0, damage)  # cx e fx
     else:
         damage = (monster[target][body_part][1] - (abs(critic_place[0] - attack_place[0]) + abs(critic_place[1] - attack_place[1]))) // 2
+        damage = max(0, damage)
     if attack_place == critic_place:
         critic_reached = True
     return damage, critic_reached, critic_place
@@ -102,7 +104,6 @@ def main():
         combat = True
         print("Combate ", k, ", vida = ", aloy_life_points, sep='')
         machines_defeated = 0
-        monster_defeated = 0
 
         while combat is True:
             target, body_part, arrow_type, fx, fy = input().split(sep=", ")
@@ -152,11 +153,9 @@ def main():
         if not aloy_alive:
             print("Vida após o combate =", aloy_life_points)
             print("Aloy foi derrotada em combate e não retornará a tribo.")
-            break
 
-        if aloy_alive:
+        if aloy_alive and monster_defeated == amount_monsters:
             print("Aloy provou seu valor e voltou para sua tribo.")
-            break
 
         k += 1
 
