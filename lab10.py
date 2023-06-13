@@ -147,8 +147,9 @@ def main():
                 if not aloy_alive:
                     combat = False
 
-            aloy_life_points += max_life // 2
-            aloy_life_points = min(aloy_life_points, max_life)
+            if aloy_alive:
+                aloy_life_points += max_life // 2
+                aloy_life_points = min(aloy_life_points, max_life)
 
         if not aloy_alive:
             print("Vida após o combate =", aloy_life_points)
