@@ -1,131 +1,155 @@
-# Cleaning Room Robot From Smaug
+def damage(target, body_part, arrow_type, monster, attack_place):  # tá nesse dicionário
+    critic_reached = False
+    critic_place = monster[target][body_part][2]
+    arrow_critic = monster[target][body_part][0]
+    if arrow_type == arrow_critic or monster[target][body_part][0] == "todas":
+        damage = monster[target][body_part][1] - (abs(critic_place[0] - attack_place[0]) + abs(critic_place[1] - attack_place[1]))  # cx e fx
+    else:
+        damage = (monster[target][body_part][1] - (abs(critic_place[0] - attack_place[0]) + abs(critic_place[1] - attack_place[1]))) // 2
+    if attack_place == critic_place:
+        critic_reached = True
+    return damage, critic_reached, critic_place
 
 
-# def search(room, robot_position, room_numb):
-#     scanning = [(0, -1), (-1, 0), (0, +1), (+1, 0)]
-#     for position in scanning:
-#         dirty = robot_position + position
-#         if dirty[1] >= 0 and dirty[1] < len(room[0]):
-#             if dirty[0] >= 0 and dirty[0] < room_numb:
-#                 if room[dirty[0]][dirty[1]] == "o":
-#                     return dirty, robot_position
-#     return None, None
-
-# # salvar a posição da sujeira e mandar ele ir atras
-# def cleaning(robot_position, room, dirty, room_numb):
-#     room[dirty[0]][dirty[1]] = "r"
-#     room[robot_position[0]][robot_position[1]] = "."
+def critic_place_listing(critics, li, critic_place, critic_reached):
+    if critic_reached:
+        li[critic_place] += 1
+    return critics
 
 
-# def back_scanner(dirty, last_position, room, room_numb):
-#     if dirty[1] != last_position[1]:
-#         if dirty[1] < last_position[1]:
-#             walking_right(room, last_position)
-#         elif dirty[1] > last_position[1]:
-#             walking_left(room, last_position)
-#     elif dirty[1] == last_position[1]:
-#         if dirty[0] > last_position[0]:
-#             walking_up(room, last_position)
-#         elif dirty[0] > last_position[0]:
-#             walking_down(room, last_position)
-#     # voltar para posição antes do cleaning
+def arrows_type_listing(arrows, arrow_type):
+    arrows[arrow_type][1] += 1
+    return
 
 
-# def finish_cleaning(room, room_numb, robot_position):
-#     if room_numb % 2 == 0:
-#         pos = robot_position
-#         for _ in range(len(room[0]) - 1):
-#             room[pos[0]][pos[1] + 1] = "r"
-#             room[pos[0]][pos[1]] = "."
-#             pos = (pos[0], pos[1] + 1)
-#             stamp(room)
+def machines_attack(aloy_life_points, machines):
+    aloy_alive = True
+    for key in machines:
+        if machines[key][0] > 0:
+            aloy_life_points -= machines[key][1]
+            aloy_life_points = max(0, aloy_life_points)
+            if aloy_life_points == 0:
+                aloy_life_points = False
+                return aloy_life_points, aloy_alive
+    return aloy_life_points, aloy_alive
 
 
-def stamp(room):
-    for i in range(len(room[0])):
-        print(*room[i])
-    print()
+def aloy_attack(target, body_part, monster, arrows, arrow_type, fx, fy, li, critics):
+    attack_place = (fx, fy)
+    damages, critic_reached, critic_place = damage(target, body_part, arrow_type, monster, attack_place)
+    critics = critic_place_listing(critics, li, critic_place, critic_reached)
+    arrows_type_listing(arrows, arrow_type)
+    return damages, critics
 
 
-def walking_right(room, robot_position):
-    room[robot_position[0]][robot_position[1] + 1] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
+def get_arrow(arrows):
+    for key in arrows:
+        arrows[key][1] = 0
+    return arrows
 
 
-def walking_up(room, robot_position):
-    room[robot_position[0] - 1][robot_position[1]] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
-
-
-def walking_left(room, robot_position):
-    room[robot_position[0]][robot_position[1] - 1] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
-
-
-def walking_down(room, robot_position):
-    room[robot_position[0] + 1][robot_position[1]] = "r"
-    room[robot_position[0]][robot_position[1]] = "."
-
-
-def scanner(room, robot_position):
-    if robot_position[0] % 2 == 0:
-        if (robot_position[1] + 1) < len(room[0]):
-            walking_right(room, robot_position)
-            robot_position = location(robot_position, 0, 1)
-        else:
-            walking_down(room, robot_position)
-            robot_position = location(robot_position, 1, 0)
-    elif robot_position[0] % 2 != 0:
-        if (robot_position[1] - 1) >= 0:
-            walking_left(room, robot_position)
-            robot_position = location(robot_position, 0, -1)
-        else:
-            walking_down(room, robot_position)
-            robot_position = location(robot_position, +1, 0)
-    return room, robot_position
-
-
-def location(robot_position, a, b):
-    return (robot_position[0] + a, robot_position[1] + b)
-
-# last
 def main():
-    room_numb = int(input())
-    room = []
-    for _ in range(room_numb):
-        room.append(input().split())
-    robot_position = (0, 0)
-    stamp(room)
-    for _ in range(10):
-        room, robot_position = scanner(room, robot_position)
-        stamp(room)
+    max_life = int(input())
+    aloy_life_points = max_life
+    arrow_amount = input().split()
+    arrows = {}
+    # arrows_listing = []
+    for i in range(len(arrow_amount)):
+        if i % 2 == 0:
+            arrows[arrow_amount[i]] = [int(arrow_amount[i + 1]), 0]
+            # arrows: {tipo: [quantidade dispònivel, quantidade gasta]}
 
-    # while True:
-    #     dirty, last_position = search(room, robot_position, room_numb)
-    #     # dirty_position = [] # problema
-    #     # dirty_position.append(dirty)
-    #     if dirty is not None:
-    #         cleaning(robot_position, room, dirty, room_numb)
-    #         dirti, posi = search(room, dirty, room_numb)
-    #         # fazer um loop aqui que vai meter um search and cleaning eterno
-    #         # vai dar problema com dirty
-    #         while dirti is not None:
-    #             cleaning(robot_position, room, dirti, room_numb)
-    #             dirti, posi = search(room, dirti, room_numb)
-    #         while dirti is None:
-    #             back_scanner(dirty, last_position, room, room_numb)
-    #             dirti, posi = search(room, dirty, room_numb) # this dirty / posi
-    #     room, robot_position = scanner(room, last_position)
-    #     stamp(room)
-    #     break # algo em relação a função scanner
+    amount_monsters = int(input())
+    monster_defeated = 0
+    k = 0
+    aloy_alive = True
+    while k >= 0 and monster_defeated != amount_monsters and aloy_alive is True:  # monstros derrotados, aloy morta, com flecha
+        arrows = get_arrow(arrows) # erro
+        machines = {}
+        machines_parts = {}
+        monster = []
+        critics = []
+        machines_combat = int(input())
+        for perfil in range(machines_combat):
+            life_points, attack_points, parts_quant = input().split()
+            machines[perfil] = [int(life_points), int(attack_points), int(parts_quant)]
+            li = {}
+            critics.append(li)
+            # maquinas {machines(número): [live_points, attack_points, parts_quant]}
+            for _ in range(machines[perfil][2]):
+                body_part, weakness, max_damage, x_coordenate, y_coordenate = input().split(sep=", ")
+                machines_parts[body_part] = [weakness, int(max_damage), (int(x_coordenate), int(y_coordenate))]
+                monster.append(machines_parts)
+                critics[perfil][machines_parts[body_part][2]] = 0
 
-    # finish_cleaning(room, room_numb, robot_position)
+                # parts {body_part: [weaknees, max_damage, (x_coordenate, y_coordenate)]}
+
+        combat = True
+        print("Combate ", k,", vida = ", aloy_life_points, sep='')
+        machines_defeated = 0
+        monster_defeated = 0
+
+        while combat is True:
+            target, body_part, arrow_type, fx, fy = input().split(sep=", ")
+            target = int(target)
+            # aloy_attack(target, body_part, arrow_type, fx, fy)
+            damage, critics = aloy_attack(int(target), body_part, monster, arrows, arrow_type, int(fx), int(fy), li, critics)
+            machines[target][0] -= damage
+            machines[target][0] = max(0, machines[target][0])
+            if machines[target][0] == 0:
+                print("Máquina", target, "derrotada")
+                machines_defeated += 1
+                monster_defeated += 1
+
+            if machines_defeated == machines_combat:
+                print("Vida após o combate =", aloy_life_points)
+                print("Flechas utilizadas:")
+                for key in arrows:
+                    if arrows[key][1] != 0:
+                        print("- ", key,": ", arrows[key][1],"/",arrows[key][0], sep='')
+
+                critic_ocurred = False
+                for n in range(len(critics)):
+                    for t in critics[n]:
+                        if critics[n][t] != 0:
+                            critic_ocurred = True
+
+
+
+
+
+                if critic_ocurred is True:
+                    # critics[0][chave]
+                    print("Críticos acertados:")    
+                    for i in range(len(critics)):
+                        print("Máquina ", i,":", sep='')
+
+                        for m in critics[0]:
+                            if critics[0][m] != 0:
+                                print("- ", m, ": ", li[m], "x", sep='')
+
+                combat = False
+
+            elif machines_defeated != machines_combat:
+                aloy_life_points, aloy_alive = machines_attack(aloy_life_points, machines)
+
+                if not aloy_alive:
+                    combat = False
+
+            aloy_life_points += max_life // 2
+            aloy_life_points = min(aloy_life_points, max_life)
+
+        if not aloy_alive:
+            print("Vida após o combate =", aloy_life_points)
+            print("Aloy foi derrotada em combate e não retornará a tribo.")
+            break
+
+        if aloy_alive:
+            print("Aloy provou seu valor e voltou para sua tribo.")
+            break
+
+        k += 1
 
 
 if __name__ == "__main__":
     main()
-
-# salvar a posição que tem sujeira
-# mover até ela pela ordem que ele anda
-# separar em diferentes funções de movimento
-# TESTING 
