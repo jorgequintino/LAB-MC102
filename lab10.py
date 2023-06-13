@@ -1,4 +1,7 @@
 def damage(target, body_part, arrow_type, monster, attack_place):  # tá nesse dicionário
+    ''' Calcula o dano que cada máquina sofre de acordo com o tipo de flecha
+    que é atingida e o local do ataque.
+    '''
     critic_reached = False
     critic_place = monster[target][body_part][2]
     arrow_critic = monster[target][body_part][0]
@@ -12,17 +15,24 @@ def damage(target, body_part, arrow_type, monster, attack_place):  # tá nesse d
 
 
 def critic_place_listing(critics, li, critic_place, critic_reached):
+    '''Retorna uma lista cuja posição corresponde a uma máquina, e nela
+    está um dicionário cuja chave são seus pontos críticos e quantas
+    vezes foram atingidos.'''
     if critic_reached:
         li[critic_place] += 1
     return critics
 
 
 def arrows_type_listing(arrows, arrow_type):
+    ''' Altera a quantidade de vezes que uma flecha de determinado tipo
+    foi gasta.
+    '''
     arrows[arrow_type][1] += 1
     return
 
 
 def machines_attack(aloy_life_points, machines):
+    '''Coordena os ataques da máquinas ainda viva em Aloy.'''
     aloy_alive = True
     for key in machines:
         if machines[key][0] > 0:
@@ -35,6 +45,10 @@ def machines_attack(aloy_life_points, machines):
 
 
 def aloy_attack(target, body_part, monster, arrows, arrow_type, fx, fy, li, critics):
+    ''' Estruturação da sequência de ataque de Aloy, calculando o dano,
+    trazendo a possível presença de pontos críticos atingidos e alterando
+    a contagem de flechas gastas.
+    '''
     attack_place = (fx, fy)
     damages, critic_reached, critic_place = damage(target, body_part, arrow_type, monster, attack_place)
     critics = critic_place_listing(critics, li, critic_place, critic_reached)
@@ -43,6 +57,8 @@ def aloy_attack(target, body_part, monster, arrows, arrow_type, fx, fy, li, crit
 
 
 def get_arrow(arrows):
+    '''Reseta a quantidade de flechas disparadas por Aloy.
+    '''
     for key in arrows:
         arrows[key][1] = 0
     return arrows
@@ -64,11 +80,10 @@ def main():
     k = 0
     aloy_alive = True
     while k >= 0 and monster_defeated != amount_monsters and aloy_alive is True:  # monstros derrotados, aloy morta, com flecha
-        arrows = get_arrow(arrows) # erro
+        arrows = get_arrow(arrows)
         machines = {}
         machines_parts = {}
         monster = []
-
         critics = []
         machines_combat = int(input())
         for perfil in range(machines_combat):
@@ -82,11 +97,10 @@ def main():
                 machines_parts[body_part] = [weakness, int(max_damage), (int(x_coordenate), int(y_coordenate))]
                 monster.append(machines_parts)
                 critics[perfil][machines_parts[body_part][2]] = 0
-
                 # parts {body_part: [weaknees, max_damage, (x_coordenate, y_coordenate)]}
 
         combat = True
-        print("Combate ", k,", vida = ", aloy_life_points, sep='')
+        print("Combate ", k, ", vida = ", aloy_life_points, sep='')
         machines_defeated = 0
         monster_defeated = 0
 
@@ -107,7 +121,7 @@ def main():
                 print("Flechas utilizadas:")
                 for key in arrows:
                     if arrows[key][1] != 0:
-                        print("- ", key,": ", arrows[key][1],"/",arrows[key][0], sep='')
+                        print("- ", key, ": ", arrows[key][1], "/", arrows[key][0], sep='')
 
                 critic_ocurred = False
                 for n in range(len(critics)):
@@ -116,10 +130,9 @@ def main():
                             critic_ocurred = True
 
                 if critic_ocurred is True:
-                    # critics[0][chave]
-                    print("Críticos acertados:")    
+                    print("Críticos acertados:")
                     for i in range(len(critics)):
-                        print("Máquina ", i,":", sep='')
+                        print("Máquina ", i, ":", sep='')
 
                         for m in critics[0]:
                             if critics[0][m] != 0:
@@ -136,17 +149,16 @@ def main():
             aloy_life_points += max_life // 2
             aloy_life_points = min(aloy_life_points, max_life)
 
+        if not aloy_alive:
+            print("Vida após o combate =", aloy_life_points)
+            print("Aloy foi derrotada em combate e não retornará a tribo.")
+            break
+
+        if aloy_alive:
+            print("Aloy provou seu valor e voltou para sua tribo.")
+            break
 
         k += 1
-
-    if not aloy_alive:
-        print("Vida após o combate =", aloy_life_points)
-        print("Aloy foi derrotada em combate e não retornará a tribo.")
-
-    if aloy_alive:
-        print("Aloy provou seu valor e voltou para sua tribo.")
-
-
 
 
 if __name__ == "__main__":

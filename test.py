@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 def damage(target, body_part, arrow_type, monster, attack_place):  # tá nesse dicionário
     critic_reached = False
     critic_place = monster[target][body_part][2]
@@ -153,3 +154,8 @@ def main():
 
 if __name__ == "__main__":
     main()
+=======
+# x, u, k = input().split()
+# x = int(x)
+# print(x)
+>>>>>>> d8038eac5d27217e74bfbe8ab4f6f44d7bf5b900
