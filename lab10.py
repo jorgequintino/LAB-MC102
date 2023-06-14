@@ -86,7 +86,7 @@ def main():
         arrows = reset_arrows(arrows)
         machines = {}  # maquinas {machines(número): [live_points, attack_points, parts_quant]}
 
-        monster = []
+        monster = []  # [dic(maq 0), dic(maq 1), ...]
         critics = []
         machines_combat = int(input())
         for perfil in range(machines_combat):
@@ -98,7 +98,7 @@ def main():
                 body_part, weakness, max_damage, x_coordenate, y_coordenate = input().split(sep=", ")
                 machines_parts[body_part] = [weakness, int(max_damage), (int(x_coordenate), int(y_coordenate))]
                 li[machines_parts[body_part][2]] = 0
-                
+
             monster.append(machines_parts)
             critics.append(li)
         in_combat = True
@@ -118,7 +118,7 @@ def main():
                 print("Máquina", target, "derrotada")
                 machines_defeated += 1
                 monster_defeated += 1
-                
+
             if machines_defeated == machines_combat:
                 print("Vida após o combate =", aloy_life_points)
                 print("Flechas utilizadas:")
