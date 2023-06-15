@@ -74,24 +74,24 @@ def main():
     for i in range(len(arrow_amount)):
         if i % 2 == 0:
             arrows[arrow_amount[i]] = [int(arrow_amount[i + 1]), 0]
-            # arrows: {tipo: [quantidade dispònivel, quantidade gasta]}
+            # arrows: {tipo: [quantidade disponível, quantidade gasta]}
 
     amount_monsters = int(input())
     monster_defeated = 0
     combat_numb = -1
     aloy_alive = True
 
-    while True:  # monstros derrotados, aloy morta, com flecha
+    while True:  # sair do loop: monstros derrotados, aloy morta, aloy sem flecha
         combat_numb += 1
         arrows = reset_arrows(arrows)
         machines = {}  # maquinas {machines(número): [live_points, attack_points, parts_quant]}
-        monster = []  # [dic(maq 0), dic(maq 1), ...]
-        critics = []
+        monster = []  # [machine_parts(maq 0), machine_parts(maq 1), ...]
+        critics = []  # [critics_amount(maq 0), critics_amount(maq 1), ...]
         machines_combat = int(input())
 
         for perfil in range(machines_combat):
-            critics_amount = {}  # li {ponto crítico: quantidade de vezes atingido} 
-            machines_parts = {}  # parts {body_part: [weaknees, max_damage, (x_coordenate, y_coordenate)]}
+            critics_amount = {}  # critics_amount {ponto crítico: quantidade de vezes atingido}
+            machines_parts = {}  # machine_parts {body_part: [weaknees, max_damage, (x_coordenate, y_coordenate)]}
 
             life_points, attack_points, parts_quant = input().split()
             machines[perfil] = [int(life_points), int(attack_points), int(parts_quant)]
