@@ -6,10 +6,14 @@ def damage(aloy, monster):
     critic_place = monster[aloy[0]][aloy[1]][2]
     arrow_critic = monster[aloy[0]][aloy[1]][0]
     if aloy[2] == arrow_critic or monster[aloy[0]][aloy[1]][0] == "todas":
-        damage = monster[aloy[0]][aloy[1]][1] - (abs(critic_place[0] - aloy[3][0]) + abs(critic_place[1] - aloy[3][1])) 
+        damage = (monster[aloy[0]][aloy[1]][1] -
+                  (abs(critic_place[0] - aloy[3][0]) +
+                   abs(critic_place[1] - aloy[3][1])))
         damage = max(0, damage)
     else:
-        damage = (monster[aloy[0]][aloy[1]][1] - (abs(critic_place[0] - aloy[3][0]) + abs(critic_place[1] - aloy[3][1]))) // 2
+        damage = ((monster[aloy[0]][aloy[1]][1] -
+                   (abs(critic_place[0] - aloy[3][0]) +
+                    abs(critic_place[1] - aloy[3][1])))) // 2
         damage = max(0, damage)
     if aloy[3] == critic_place:
         critic_reached = True
