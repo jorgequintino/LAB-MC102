@@ -1,7 +1,19 @@
+#  Caçadora e arqueira Aloy combate máquinas ao explorar seu mundo.
+
 def damage(aloy, monster):
-    ''' Calcula o dano que cada máquina sofre de acordo com o tipo de flecha
-    que é atingida e o local do ataque.
-    '''
+    '''Calcula o dano que cada máquina sofre de acordo com o tipo de flecha
+    que é atingida e o local do ataque. Caso o ataque seja no ponto crítico,
+    salva a ocorrência para a criação de um dicionário correspondente.
+    Parâmetros:
+    argumentos:
+        aloy (list)
+        monster (list)
+        column (int)
+    retorno:
+        damage (int)
+        critic_reached (bool)
+        critic_place (tuple)
+        '''
     critic_reached = False
     critic_place = monster[aloy[0]][aloy[1]][2]
     arrow_critic = monster[aloy[0]][aloy[1]][0]
@@ -13,7 +25,7 @@ def damage(aloy, monster):
     else:
         damage = ((monster[aloy[0]][aloy[1]][1] -
                    (abs(critic_place[0] - aloy[3][0]) +
-                    abs(critic_place[1] - aloy[3][1]))))20/20 // 2
+                    abs(critic_place[1] - aloy[3][1])))) // 2
         damage = max(0, damage)
     if aloy[3] == critic_place:
         critic_reached = True
@@ -23,7 +35,19 @@ def damage(aloy, monster):
 def critic_place_listing(critics, critic_place, critic_reached, critic_ocurred, aloy):
     '''Retorna uma lista cuja posição corresponde a uma máquina, e nela
     está um dicionário cuja chave são seus pontos críticos e quantas
-    vezes foram atingidos.'''
+    vezes foram atingidos. Utiliza também uma variável booleana para
+    salvar se há algum ponto crítico no combate.
+    Parâmetros:
+    argumentos:
+        critics (list)
+        critic_place (tuple)
+        critic_reached (bool)
+        critic_ocurred (bool)]
+        aloy (list)
+    retorno:
+        critics (list)
+        critic_ocurred (bool)
+        '''
     if critic_reached:
         critic_ocurred = True
         critics[aloy[0]][critic_place] += 1
@@ -31,15 +55,30 @@ def critic_place_listing(critics, critic_place, critic_reached, critic_ocurred, 
 
 
 def arrows_type_listing(arrows, aloy):
-    ''' Altera a quantidade de vezes que uma flecha de determinado tipo
+    '''Altera a quantidade de vezes que uma flecha de determinado tipo
     foi gasta.
-    '''
+    Parâmetros:
+    argumentos:
+        arrows (dic)
+        aloy (list)
+    retorn:
+        None
+        '''
     arrows[aloy[2]][1] += 1
     return
 
 
 def machines_attack(aloy_life_points, machines):
-    '''Coordena os ataques da máquinas ainda viva em Aloy.'''
+    '''Coordena os ataques das máquinas ainda viva em Aloy e verifica se ela
+    está viva após o confronto.
+    Parâmetros:
+    argumentos:
+        aloy_life_points (int)
+        machines (dic)
+    retorno:
+        aloy_life_points (int)
+        aloy_alive (bool)
+        '''
     aloy_alive = True
     for key in machines:
         if machines[key][0] > 0:
@@ -52,10 +91,21 @@ def machines_attack(aloy_life_points, machines):
 
 
 def aloy_attack(aloy, monster, arrows, critics, critic_ocurred):
-    ''' Estruturação da sequência de ataque de Aloy, calculando o dano,
+    '''Estruturação da sequência de ataque de Aloy, calculando o dano,
     trazendo a possível presença de pontos críticos atingidos e alterando
     a contagem de flechas gastas.
-    '''
+    Parâmetros:
+    argumentos:
+        aloy (list)
+        monster (list))
+        arrows (dic)
+        critics (list)
+        critic_ocurred (bool)
+    retorno:
+        damages (int)
+        critics (list)
+        critic_ocurred (bool)
+        '''
     damages, critic_reached, critic_place = damage(aloy, monster)
     critics, critic_ocurred = critic_place_listing(critics, critic_place, critic_reached, critic_ocurred, aloy)
     arrows_type_listing(arrows, aloy)
@@ -63,8 +113,13 @@ def aloy_attack(aloy, monster, arrows, critics, critic_ocurred):
 
 
 def reset_arrows(arrows):
-    '''Reseta a quantidade de flechas disparadas por Aloy.
-    '''
+    '''Reseta a quantidade de flechas disparadas por Aloy após cada combate.
+    Parâmetros:
+    argumentos:
+        arrows (tdic)
+    retorno:
+        arrows (dic)
+        '''
     for key in arrows:
         arrows[key][1] = 0
     return arrows
