@@ -52,7 +52,6 @@ def aloy_attack(aloy, monster, arrows, critics, critic_ocurred):
     trazendo a possível presença de pontos críticos atingidos e alterando
     a contagem de flechas gastas.
     '''
-    #attack_place = (fx, fy)
     damages, critic_reached, critic_place = damage(aloy, monster)
     critics, critic_ocurred = critic_place_listing(critics, critic_place, critic_reached, critic_ocurred, aloy)
     arrows_type_listing(arrows, aloy)
@@ -72,7 +71,6 @@ def main():
     aloy_life_points = max_life
     arrow_amount = input().split()
     arrows = {}
-    # arrows_listing = []
     for i in range(len(arrow_amount)):
         if i % 2 == 0:
             arrows[arrow_amount[i]] = [int(arrow_amount[i + 1]), 0]
@@ -87,16 +85,16 @@ def main():
         k += 1
         arrows = reset_arrows(arrows)
         machines = {}  # maquinas {machines(número): [live_points, attack_points, parts_quant]}
-
         monster = []  # [dic(maq 0), dic(maq 1), ...]
         critics = []
         machines_combat = int(input())
+
         for perfil in range(machines_combat):
-            life_points, attack_points, parts_quant = input().split()
-            machines[perfil] = [int(life_points), int(attack_points), int(parts_quant)]
             li = {}  # li {ponto crítico: quantidade de vezes atingido} 
             machines_parts = {}  # parts {body_part: [weaknees, max_damage, (x_coordenate, y_coordenate)]}
             
+            life_points, attack_points, parts_quant = input().split()
+            machines[perfil] = [int(life_points), int(attack_points), int(parts_quant)]    
             for _ in range(machines[perfil][2]):
                 body_part, weakness, max_damage, x_coordenate, y_coordenate = input().split(sep=", ")
                 machines_parts[body_part] = [weakness, int(max_damage), (int(x_coordenate), int(y_coordenate))]
@@ -106,18 +104,21 @@ def main():
             critics.append(li)
 
         in_combat = True
-        print("Combate ", k, ", vida = ", aloy_life_points, sep='')
+        
         machines_defeated = 0
-        ataque = 0
+        attack = 0
         critic_ocurred = False
+        print("Combate ", k, ", vida = ", aloy_life_points, sep='')
 
         while in_combat:
             target, body_part, arrow_type, fx, fy = input().split(sep=", ")
             aloy = [int(target), body_part, arrow_type, (int(fx), int(fy))]
+
             damage, critics, critic_ocurred = aloy_attack(aloy, monster, arrows, critics, critic_ocurred)
-            ataque += 1
+            attack += 1
             machines[aloy[0]][0] -= damage
             machines[aloy[0]][0] = max(0, machines[aloy[0]][0])
+
             if machines[aloy[0]][0] == 0:
                 print("Máquina", aloy[0], "derrotada")
                 machines_defeated += 1
@@ -126,28 +127,27 @@ def main():
             if machines_defeated == machines_combat:
                 print("Vida após o combate =", aloy_life_points)
                 print("Flechas utilizadas:")
+
                 for key in arrows:
                     if arrows[key][1] != 0:
                         print("- ", key, ": ", arrows[key][1], "/", arrows[key][0], sep='')
 
                 if critic_ocurred is True:
                     print("Críticos acertados:")
-                    
                     for i in range(len(critics)):
-                        # print("Máquina ", i, ":", sep='')      # tá imprimindo toda vez
-                        h = True
+                        first_out = True
                         for m in critics[i]:
                             if critics[i][m] != 0:
-                                if h is True:
+                                if first_out:
                                     print("Máquina ", i, ":", sep='')
-                                    h = False
+                                    first_out = False
                                 print("- ", m, ": ", critics[i][m], "x", sep='')
 
                 in_combat = False
 
-            elif machines_defeated != machines_combat and ataque == 3:
+            elif machines_defeated != machines_combat and attack == 3:
                 aloy_life_points, aloy_alive = machines_attack(aloy_life_points, machines)
-                ataque = 0
+                attack = 0
 
                 if not aloy_alive:
                     in_combat = False
