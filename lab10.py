@@ -78,11 +78,11 @@ def main():
 
     amount_monsters = int(input())
     monster_defeated = 0
-    k = -1
+    combat_numb = -1
     aloy_alive = True
 
     while True:  # monstros derrotados, aloy morta, com flecha
-        k += 1
+        combat_numb += 1
         arrows = reset_arrows(arrows)
         machines = {}  # maquinas {machines(número): [live_points, attack_points, parts_quant]}
         monster = []  # [dic(maq 0), dic(maq 1), ...]
@@ -90,25 +90,25 @@ def main():
         machines_combat = int(input())
 
         for perfil in range(machines_combat):
-            li = {}  # li {ponto crítico: quantidade de vezes atingido} 
+            critics_amount = {}  # li {ponto crítico: quantidade de vezes atingido} 
             machines_parts = {}  # parts {body_part: [weaknees, max_damage, (x_coordenate, y_coordenate)]}
-            
+
             life_points, attack_points, parts_quant = input().split()
-            machines[perfil] = [int(life_points), int(attack_points), int(parts_quant)]    
+            machines[perfil] = [int(life_points), int(attack_points), int(parts_quant)]
             for _ in range(machines[perfil][2]):
                 body_part, weakness, max_damage, x_coordenate, y_coordenate = input().split(sep=", ")
                 machines_parts[body_part] = [weakness, int(max_damage), (int(x_coordenate), int(y_coordenate))]
-                li[machines_parts[body_part][2]] = 0
+                critics_amount[machines_parts[body_part][2]] = 0
 
             monster.append(machines_parts)
-            critics.append(li)
+            critics.append(critics_amount)
 
         in_combat = True
-        
+
         machines_defeated = 0
         attack = 0
         critic_ocurred = False
-        print("Combate ", k, ", vida = ", aloy_life_points, sep='')
+        print("Combate ", combat_numb, ", vida = ", aloy_life_points, sep='')
 
         while in_combat:
             target, body_part, arrow_type, fx, fy = input().split(sep=", ")
@@ -136,12 +136,12 @@ def main():
                     print("Críticos acertados:")
                     for i in range(len(critics)):
                         first_out = True
-                        for m in critics[i]:
-                            if critics[i][m] != 0:
+                        for critics_key in critics[i]:
+                            if critics[i][critics_key] != 0:
                                 if first_out:
                                     print("Máquina ", i, ":", sep='')
                                     first_out = False
-                                print("- ", m, ": ", critics[i][m], "x", sep='')
+                                print("- ", critics_key, ": ", critics[i][critics_key], "x", sep='')
 
                 in_combat = False
 
