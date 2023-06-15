@@ -1,35 +1,36 @@
-def damage(target, body_part, arrow_type, monster, attack_place):
+def damage(aloy, monster):
     ''' Calcula o dano que cada máquina sofre de acordo com o tipo de flecha
     que é atingida e o local do ataque.
     '''
     critic_reached = False
-    critic_place = monster[target][body_part][2]
-    arrow_critic = monster[target][body_part][0]
-    if arrow_type == arrow_critic or monster[target][body_part][0] == "todas":
-        damage = monster[target][body_part][1] - (abs(critic_place[0] - attack_place[0]) + abs(critic_place[1] - attack_place[1])) 
+    critic_place = monster[aloy[0]][aloy[1]][2]
+    arrow_critic = monster[aloy[0]][aloy[1]][0]
+    if aloy[2] == arrow_critic or monster[aloy[0]][aloy[1]][0] == "todas":
+        damage = monster[aloy[0]][aloy[1]][1] - (abs(critic_place[0] - aloy[3][0]) + abs(critic_place[1] - aloy[3][1])) 
         damage = max(0, damage)
     else:
-        damage = (monster[target][body_part][1] - (abs(critic_place[0] - attack_place[0]) + abs(critic_place[1] - attack_place[1]))) // 2
+        damage = (monster[aloy[0]][aloy[1]][1] - (abs(critic_place[0] - aloy[3][0]) + abs(critic_place[1] - aloy[3][1]))) // 2
         damage = max(0, damage)
-    if attack_place == critic_place:
+    if aloy[3] == critic_place:
         critic_reached = True
     return damage, critic_reached, critic_place
 
 
-def critic_place_listing(critics, li, critic_place, critic_reached):
+def critic_place_listing(critics, li, critic_place, critic_reached, critic_ocurred):
     '''Retorna uma lista cuja posição corresponde a uma máquina, e nela
     está um dicionário cuja chave são seus pontos críticos e quantas
     vezes foram atingidos.'''
     if critic_reached:
+        critic_ocurred = True
         li[critic_place] += 1
-    return critics
+    return critics, critic_ocurred
 
 
-def arrows_type_listing(arrows, arrow_type):
+def arrows_type_listing(arrows, aloy):
     ''' Altera a quantidade de vezes que uma flecha de determinado tipo
     foi gasta.
     '''
-    arrows[arrow_type][1] += 1
+    arrows[aloy[2]][1] += 1
     return
 
 
@@ -46,16 +47,16 @@ def machines_attack(aloy_life_points, machines):
     return aloy_life_points, aloy_alive
 
 
-def aloy_attack(target, body_part, monster, arrows, arrow_type, fx, fy, li, critics):
+def aloy_attack(aloy, monster, arrows, li, critics, critic_ocurred):
     ''' Estruturação da sequência de ataque de Aloy, calculando o dano,
     trazendo a possível presença de pontos críticos atingidos e alterando
     a contagem de flechas gastas.
     '''
-    attack_place = (fx, fy)
-    damages, critic_reached, critic_place = damage(target, body_part, arrow_type, monster, attack_place)
-    critics = critic_place_listing(critics, li, critic_place, critic_reached)
-    arrows_type_listing(arrows, arrow_type)
-    return damages, critics
+    #attack_place = (fx, fy)
+    damages, critic_reached, critic_place = damage(aloy, monster)
+    critics, critic_ocurred = critic_place_listing(critics, li, critic_place, critic_reached, critic_ocurred)
+    arrows_type_listing(arrows, aloy)
+    return damages, critics, critic_ocurred
 
 
 def reset_arrows(arrows):
@@ -105,17 +106,17 @@ def main():
         print("Combate ", k, ", vida = ", aloy_life_points, sep='')
         machines_defeated = 0
         ataque = 0
+        critic_ocurred = False
 
         while in_combat:
             target, body_part, arrow_type, fx, fy = input().split(sep=", ")
-            target = int(target)
-            # aloy_attack(target, body_part, arrow_type, fx, fy)
-            damage, critics = aloy_attack(int(target), body_part, monster, arrows, arrow_type, int(fx), int(fy), li, critics)
+            aloy = [int(target), body_part, arrow_type, (int(fx), int(fy))]
+            damage, critics, critic_ocurred = aloy_attack(aloy, monster, arrows, li, critics, critic_ocurred)
             ataque += 1
-            machines[target][0] -= damage
-            machines[target][0] = max(0, machines[target][0])
-            if machines[target][0] == 0:
-                print("Máquina", target, "derrotada")
+            machines[aloy[0]][0] -= damage
+            machines[aloy[0]][0] = max(0, machines[aloy[0]][0])
+            if machines[aloy[0]][0] == 0:
+                print("Máquina", aloy[0], "derrotada")
                 machines_defeated += 1
                 monster_defeated += 1
 
@@ -125,12 +126,6 @@ def main():
                 for key in arrows:
                     if arrows[key][1] != 0:
                         print("- ", key, ": ", arrows[key][1], "/", arrows[key][0], sep='')
-
-                critic_ocurred = False
-                for n in range(len(critics)):
-                    for t in critics[n]:
-                        if critics[n][t] != 0:
-                            critic_ocurred = True
 
                 if critic_ocurred is True:
                     print("Críticos acertados:")
