@@ -132,11 +132,15 @@ def main():
 
                 if critic_ocurred is True:
                     print("Críticos acertados:")
+                    
                     for i in range(len(critics)):
-                        print("Máquina ", i, ":", sep='')      # tá imprimindo toda vez
-
+                        # print("Máquina ", i, ":", sep='')      # tá imprimindo toda vez
+                        h = True
                         for m in critics[i]:
                             if critics[i][m] != 0:
+                                if h is True:
+                                    print("Máquina ", i, ":", sep='')
+                                    h = False
                                 print("- ", m, ": ", critics[i][m], "x", sep='')
 
                 in_combat = False
