@@ -13,7 +13,7 @@ def damage(aloy, monster):
     else:
         damage = ((monster[aloy[0]][aloy[1]][1] -
                    (abs(critic_place[0] - aloy[3][0]) +
-                    abs(critic_place[1] - aloy[3][1])))) // 2
+                    abs(critic_place[1] - aloy[3][1]))))20/20 // 2
         damage = max(0, damage)
     if aloy[3] == critic_place:
         critic_reached = True
