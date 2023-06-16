@@ -191,7 +191,11 @@ def main():
                     if arrows[key][1] != 0:
                         print("- ", key, ": ", arrows[key][1], "/", arrows[key][0], sep='')
 
+<<<<<<< HEAD
                 if critic_ocurred is True:
+=======
+                if critic_ocurred:
+>>>>>>> 51a1879 (20/20)
                     print("Críticos acertados:")
                     for i in range(len(critics)):
                         first_out = True
