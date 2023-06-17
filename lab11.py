@@ -1,7 +1,7 @@
 #  Link nas masmorras de Hyrule.
 
 class Link:
-    def __init__ (self, life, damage, position, alive):
+    def __init__(self, life, damage, position, alive):
         self.life = life
         self.damage = damage
         self.position = position
@@ -10,18 +10,14 @@ class Link:
     def walking_right(self, position):
         return (position[0], position[1] + 1)
 
-
     def walking_left(self, position):
         return (position[0], position[1] - 1)
 
-
     def walking_up(self, position):
         return (position[0] + 1, position[1])
-    
-    
+
     def walking_down(self, position):
         return (position[0] - 1, position[1])
-
 
     def walking(self, position, dungeon):
         # call 'create_room'
@@ -45,19 +41,19 @@ class Link:
         elif life > 0:
             alive = True
         return alive
-    
+
     def combat(self, ):
         pass
         # it only happens once per position.
 
     def collect_object(self, ):
         pass
-    # Link must first collect the object in the position 
+    # Link must first collect the object in the position
     # he's in and then fight the existing monsters there.
 
 
 class Room:
-    def __init__ (self, lines, columns, exit, position_details):
+    def __init__(self, lines, columns, exit, position_details):
         self._lines = lines
         self._columns = columns
         self._exit = exit
@@ -65,23 +61,23 @@ class Room:
 
     def create_room(self, stamp_room, link, position_details):
         room = []
-        for l in range(Room.lines):
+        for L in range(Room.lines):
             line = []
-            for c in range(Room.columns):
-                if (l, c) == link.position:
+            for C in range(Room.columns):
+                if (L, C) == link.position:
                     line.append('P')
-                elif (l, c) == Room.exit:
+                elif (L, C) == Room.exit:
                     line.append('*')
                 # igual a posição do monstro
-                elif position_details[l, c][0] != []:
+                elif position_details[L, C][0] != []:
                     # averiguar o tipo para imprimir a letra correspondente
-                    line.append(position_details[(l, c)][0][len(position_details[l, c][0]) - 1][(l, c)][2])
+                    line.append(position_details[(L, C)][0][len(position_details[L, C][0]) - 1][(L, C)][2])
                 else:
                     line.append('.')
             room.append(line)
         return stamp_room(room)
 
-    def stamp_room (self, room):
+    def stamp_room(self, room):
         for room_line in range(len(room)):
             print(*room[room_line])
         print()
@@ -145,14 +141,38 @@ class Object:
     def name(self):
         return self._name
 
-    @exit.setter
+    @name.setter
     def name(self, o_name):
-        self._exit = o_name
+        self._name = o_name
+
+    @property
+    def type(self):
+        return self._type
+
+    @type.setter
+    def type(self, o_type):
+        self._type = o_type
+
+    @property
+    def position(self):
+        return self._position
+
+    @position.setter
+    def position(self, o_position):
+        self._position = o_position
+
+    @property
+    def status(self):
+        return self._status
+
+    @status.setter
+    def status(self, o_status):
+        self._status = o_status
 
 def main():
     initial_life, initial_damage = input().split()
     lines, columns = input().split()
-    link_position= input()
+    link_position = input()
     exit_position = input()
 
     position_details = {}  # {position: [[mons, mons, ...], [obj, obj, ... ]]}
@@ -176,7 +196,7 @@ def main():
     object_amount = int(input())
     for i in range(object_amount):
         o_name, o_type, o_position, o_status = input().split()
-        object_details[i] = Object(o_name, o_type, o_position, o_status)
+        object_details[i] = Object(o_name, o_type, o_position, int(o_status))
         # o_details =[o_name, o_type, o_position, o_status]
         # object_details.append(o_details)
 
