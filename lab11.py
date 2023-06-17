@@ -46,7 +46,7 @@ class Link:
             alive = True
         return alive
     
-    def combat(self,):
+    def combat(self, ):
         pass
         # it only happens once per position.
 
@@ -57,10 +57,11 @@ class Link:
 
 
 class Room:
-    def __init__ (self, lines, columns, exit):
+    def __init__ (self, lines, columns, exit, position_details):
         self._lines = lines
         self._columns = columns
         self._exit = exit
+        self._details = position_details
 
     def create_room(self, stamp_room, link, exit):
         room = []
@@ -114,15 +115,21 @@ class Monster:
     def __init__(self, monster_details):
         self.name = monster_details[]
         self.life = monster_details[][0]
-        self.damage = monster_details[][2]
+        self.attack = monster_details[][1]
+        self.type = monster_details[][2] 
+        self.position = monster_details[][3]
 
     def walking():
         pass # if it wants to walk past the room, it must stay still.
 
+    def living():
+        pass
+
 
 class object:
     def __init__(self, object_details):
-        self.name = object_details.keys()
+        for i in object_details:
+            
 
 
 def main():
@@ -130,25 +137,39 @@ def main():
     lines, columns = input().split()
     link_position= input()
     exit_position = input()
-    link_alive = True
-    link = Link(int(initial_life), int(initial_damage), link_position, link_alive)  # link = [vida inicial, dano inicial, posição]
-    dungeon = Room(lines, columns, exit_position)
-    
 
-    # monster = []
+    position_details = {}  # {position: [[obj, obj, ... ], [[mons, mons, ...]]}
+    for l in range(lines - 1):
+        for c in range(columns - 1):
+            position_details[(l, c)] = [[], []]
+
     monster_details = {}  # {monstro: [vida, ataque, tipo, posição]}
     monster_amount = int(input())
     for i in range(monster_amount):
         m_life, m_attack, m_type, m_position = input().split()
         monster_details[i] = [int(m_life), int(m_attack), m_type, m_position]
+
+        monster_in_position ={}
+        monster_in_position[m_position] = [int(m_life), int(m_attack), m_type, m_position]
+        position_details[m_position][0].append(monster_in_position)
         # perhaps save it by the position, it could help get details better when needed.
 
     object_details = {}  # {nome: [tipo, posição, status]}
     object_amount = int(input())
     for i in range(object_amount):
         o_name, o_type, o_position, o_status = input().split()
-        object_details[o_name] = [o_type, o_position, o_status]
+        # object_details[o_name] = [o_type, o_position, o_status]
+
+        object_in_position = {}
+        object_in_position[o_position] = [o_name, o_type, o_status]
+        position_details[m_position][1].append(object_in_position)
         # salvar por posição, deve ser mais fácil checar
+
+
+    link_alive = True
+    link = Link(int(initial_life), int(initial_damage), link_position, link_alive)
+    # link = [vida inicial, dano inicial, posição]
+    dungeon = Room(lines, columns, exit_position, position_details)
 
     # I DONT KNOW HOW TO EXACTLY CALL THE SHOTS HERE
     # Link must attack first.
@@ -164,7 +185,7 @@ def main():
 
 # f = Link(2, 10, (2, 2), (4, 5))
 
-Room.stam_room()
+# Room.stam_room()
 
 if __name__ == "__main__":
     main()
