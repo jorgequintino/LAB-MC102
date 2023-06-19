@@ -2,47 +2,47 @@
 
 class Link:
     def __init__(self, life, damage, position, alive):
-        self.life = life
-        self.damage = damage
-        self.position = position
-        self.alive = alive
+        self._life = life
+        self._damage = damage
+        self._position = position
+        self._alive = alive
 
-    def walking_right(self, position):
-        return (position[0], position[1] + 1)
+    def walking_right(self):
+        self._position = (self._position[0], self._position[1] + 1)
 
-    def walking_left(self, position):
-        return (position[0], position[1] - 1)
+    def walking_left(self):
+        self._position = (self._position[0], self._position[1] - 1)
 
-    def walking_up(self, position):
-        return (position[0] + 1, position[1])
+    def walking_up(self):
+        self._position = (self._position[0] + 1, self._position[1])
 
-    def walking_down(self, position):
-        return (position[0] - 1, position[1])
+    def walking_down(self):
+        self._position = (self._position[0] - 1, self._position[1])
 
-    def walking(self, position, dungeon):
+    def walking(self, dungeon):
         # call 'create_room'
-        if position[0] % 2 == 0:
-            if (position[1] + 1) < len(dungeon[0]):
-                position = (position[0], position[1] - 1)
-            elif (position[1]) == len(dungeon[0]) - 1 and position[0] != 0:
-                position = (position[0] + 1, position[1])
-        elif position[0] % 2 != 0:
-            if (position[1] - 1) >= 0:
-                position = (position[0], position[1] - 1)
-            elif position[1] == 0 and position[0] != 0:
-                position = (position[0] + 1, position[1])
-        return position
+        if self._position[0] % 2 == 0:
+            if (self._position[1] + 1) < len(dungeon[0]):
+                self._position = (self._position[0], self._position[1] - 1)
+            elif (self._position[1]) == len(dungeon[0]) - 1 and self._position[0] != 0:
+                self._position = (self._position[0] + 1, self._position[1])
+        elif self._position[0] % 2 != 0:
+            if (self._position[1] - 1) >= 0:
+                self._position = (self._position[0], self._position[1] - 1)
+            elif self._position[1] == 0 and self._position[0] != 0:
+                self._position = (self._position[0] + 1, self._position[1])
+        return self._position
 
         # primeiro ele desce até a última linha
 
-    def living(self, life, alive):
-        if life == 0:
-            alive = False
-        elif life > 0:
-            alive = True
-        return alive
+    def living(self):
+        if self._life == 0:
+            self._alive = False
+        elif self._life > 0:
+            self._alive = True
+        return self._alive
 
-    def combat(self, ):
+    def combat(self):
         pass
         # it only happens once per position.
 
@@ -61,21 +61,26 @@ class Room:
 
     def create_room(self, stamp_room, link, position_details):
         room = []
-        for L in range(Room.lines):
+        for L in range(self._lines):
             line = []
-            for C in range(Room.columns):
+            for C in range(self._columns):
                 if (L, C) == link.position:
-                    line.append('P')
+                    if Link.alive:  # confirmar a sintaxe
+                        line.append('P')
+                    else:
+                        line.append('X')
                 elif (L, C) == Room.exit:
                     line.append('*')
                 # igual a posição do monstro
-                elif position_details[L, C][0] != []:
+                elif position_details[(L, C)][0] != []:
                     # averiguar o tipo para imprimir a letra correspondente
                     line.append(position_details[(L, C)][0][len(position_details[L, C][0]) - 1][(L, C)][2])
+                elif position_details[(L, C)][1] != []:
+                    line.append(position_details[(L, C)][1][len(position_details[L, C][1]) - 1][(L, C)][2])
                 else:
                     line.append('.')
             room.append(line)
-        return stamp_room(room)
+        stamp_room(room)
 
     def stamp_room(self, room):
         for room_line in range(len(room)):
@@ -137,74 +142,72 @@ class Object:
         self._position = o_position
         self._status = o_status
 
-    @property
-    def name(self):
-        return self._name
+    # @property
+    # def name(self):
+    #     return self._name
 
-    @name.setter
-    def name(self, o_name):
-        self._name = o_name
+    # @name.setter
+    # def name(self, o_name):
+    #     self._name = o_name
 
-    @property
-    def type(self):
-        return self._type
+    # @property
+    # def type(self):
+    #     return self._type
 
-    @type.setter
-    def type(self, o_type):
-        self._type = o_type
+    # @type.setter
+    # def type(self, o_type):
+    #     self._type = o_type
 
-    @property
-    def position(self):
-        return self._position
+    # @property
+    # def position(self):
+    #     return self._position
 
-    @position.setter
-    def position(self, o_position):
-        self._position = o_position
+    # @position.setter
+    # def position(self, o_position):
+    #     self._position = o_position
 
-    @property
-    def status(self):
-        return self._status
+    # @property
+    # def status(self):
+    #     return self._status
 
-    @status.setter
-    def status(self, o_status):
+    # @status.setter
+    # def status(self, o_status):
         self._status = o_status
 
 def main():
     initial_life, initial_damage = input().split()
     lines, columns = input().split()
-    link_position = input()
-    exit_position = input()
+    link_position = tuple([int(i) for i in input().split(',')])
+    exit_position = tuple([int(i) for i in input().split(',')])
 
     position_details = {}  # {position: [[mons, mons, ...], [obj, obj, ... ]]}
-    for l in range(lines - 1):
-        for c in range(columns - 1):
-            position_details[(l, c)] = [[], []]
+    for L in range(lines - 1):
+        for C in range(columns - 1):
+            position_details[(L, C)] = [[], []]
 
-    monster_details = {}  # [[vida, ataque, tipo, posição], [...], ...]
+    monster_details = []  # [[vida, ataque, tipo, posição], [...], ...]
     monster_amount = int(input())
-    for i in range(monster_amount):
+    for _ in range(monster_amount):
         m_life, m_attack, m_type, m_position = input().split()
-        monster_details[i] = Monster(int(m_life), int(m_attack), m_type, m_position)
-        # monster_details.append(m_details)
+        m_position = tuple([int(i) for i in m_position.split(',')])
+        monster_details.append(Monster(int(m_life), int(m_attack), m_type, m_position))
 
         monster_in_position = {}
         monster_in_position[m_position] = [int(m_life), int(m_attack), m_type, m_position]
         position_details[m_position][0].append(monster_in_position)
         # perhaps save it by the position, it could help get details better when needed.
 
-    object_details = {}  # [[nome, tipo, posição, status], [...], ...]
+    object_details = []  # [[nome, tipo, posição, status], [...], ...]
     object_amount = int(input())
-    for i in range(object_amount):
+    for _ in range(object_amount):
         o_name, o_type, o_position, o_status = input().split()
-        object_details[i] = Object(o_name, o_type, o_position, int(o_status))
-        # o_details =[o_name, o_type, o_position, o_status]
-        # object_details.append(o_details)
+        o_position = tuple([int(i) for i in o_position.split(',')])
+        object_details.append(Object(o_name, o_type, o_position, int(o_status)))
 
         object_in_position = {}
         object_in_position[o_position] = [o_name, o_type, o_status]
         position_details[m_position][1].append(object_in_position)
         # salvar por posição, deve ser mais fácil checar
-
 
     link_alive = True
     link = Link(int(initial_life), int(initial_damage), link_position, link_alive)
