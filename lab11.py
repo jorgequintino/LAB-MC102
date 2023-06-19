@@ -143,7 +143,6 @@ class Room:
                 room[link._position[0]][link._position[1]] = "X"
                 end = True
                 created = True
-
         stamp_room(room)
         return end
 
