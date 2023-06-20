@@ -47,12 +47,12 @@ class Link:
                     self._life = max(0, self._life)
                     self._alive = self.living()
                     used_objects.append(object)
-                    print("[v] Personagem adquiriu o objeto ", object._name, " com status de ", object._status, sep='')
+                    print("[v]Personagem adquiriu o objeto ", object._name, " com status de ", object._status, sep='')
                 elif object._type == "d":
                     self._damage += object._status
                     self._damage = max(1, self._damage)
                     used_objects.append(object)
-                    print("[d] Personagem adquiriu o objeto ", object._name, " com status de ", object._status, sep='')
+                    print("[d]Personagem adquiriu o objeto ", object._name, " com status de ", object._status, sep='')
 
         for object in used_objects:
             objects.remove(object)
@@ -320,19 +320,25 @@ def main():
                 object_details, link_alive = link.collect_object(object_details)
                 monster_details, link_alive = link.combat(monster_details)
                 end = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
+                if not link_alive:
+                    beginning =False
+                    end = True
             elif link._position[0] == dungeon._lines - 1:
                 beginning = False
 
-        link.walking(dungeon)
-        for monster in monster_details:
-            monster.walking(dungeon)
-        object_details, link_alive = link.collect_object(object_details)
-        monster_details, link_alive = link.combat(monster_details)
-        end = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
-        # problema teste 5 para sair do loop
+        if not end:
+
+            link.walking(dungeon)
+            for monster in monster_details:
+                monster.walking(dungeon)
+            object_details, link_alive = link.collect_object(object_details)
+            monster_details, link_alive = link.combat(monster_details)
+            end = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
+            # problema teste 5 para sair do loop
 
     if end:
-        print("Chegou ao fim!")
+        if link_alive:
+            print("Chegou ao fim!")
 
 
 if __name__ == "__main__":
