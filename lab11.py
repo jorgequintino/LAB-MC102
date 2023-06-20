@@ -40,7 +40,7 @@ class Link:
 
     def collect_object(self, objects):
         used_objects = []
-        for index, object in enumerate(objects):
+        for object in objects:
             if self._position == object._position:
                 if object._type == "v":
                     self._life += object._status
@@ -60,7 +60,7 @@ class Link:
 
     def combat(self, monsters):
         dead_monsters = []
-        for index, monster in enumerate(monsters):
+        for monster in monsters:
             if self._position == monster._position:
                 monster._life -= self._damage
                 print("O Personagem deu ", self._damage, " de dano ao monstro na posicao ", self._position, sep='')
@@ -321,7 +321,7 @@ def main():
                 monster_details, link_alive = link.combat(monster_details)
                 end = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
                 if not link_alive:
-                    beginning =False
+                    beginning = False
                     end = True
             elif link._position[0] == dungeon._lines - 1:
                 beginning = False
