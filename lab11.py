@@ -58,12 +58,13 @@ class Link:
             objects.remove(object)
         return objects, self.alive
 
-    def combat(self, monsters, link, objects, dungeon):
+    def combat(self, monsters):
         dead_monsters = []
         for index, monster in enumerate(monsters):
             if self._position == monster._position:
                 monster._life -= self._damage
                 print("O Personagem deu ", self._damage, " de dano ao monstro na posicao ", self._position, sep='')
+                monster.life = max(0, monster.life)
                 monster._alive = monster.living()
                 if monster._alive:
                     self._life -= monster._attack
@@ -317,7 +318,7 @@ def main():
                 for monster in monster_details:
                     monster.walking(dungeon)
                 object_details, link_alive = link.collect_object(object_details)
-                monster_details, link_alive = link.combat(monster_details, link, object_details, dungeon)
+                monster_details, link_alive = link.combat(monster_details)
                 end = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
             elif link._position[0] == dungeon._lines - 1:
                 beginning = False
@@ -326,8 +327,9 @@ def main():
         for monster in monster_details:
             monster.walking(dungeon)
         object_details, link_alive = link.collect_object(object_details)
-        monster_details, link_alive = link.combat(monster_details, link, object_details, dungeon)
+        monster_details, link_alive = link.combat(monster_details)
         end = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
+        # problema teste 5 para sair do loop
 
     if end:
         print("Chegou ao fim!")
