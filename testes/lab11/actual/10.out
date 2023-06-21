@@ -218,7 +218,7 @@ L . . . . d . . . .
 L . v P . . . . . .
 D . . . . D . . . .
 
-[v] Personagem adquiriu o objeto doce_de_leite com status de 5
+[v]Personagem adquiriu o objeto doce_de_leite com status de 5
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -496,7 +496,7 @@ L . . . . d . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-[v] Personagem adquiriu o objeto chocolate com status de 5
+[v]Personagem adquiriu o objeto chocolate com status de 5
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -629,7 +629,7 @@ L . . . . d P . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-[d] Personagem adquiriu o objeto colar com status de 10
+[d]Personagem adquiriu o objeto colar com status de 10
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -687,8 +687,7 @@ D . . . . D . . . .
 
 O Personagem deu 30 de dano ao monstro na posicao (4, 0)
 O Monstro deu 50 de dano ao Personagem. Vida restante = 310
-O Personagem deu 30 de dano ao monstro na posicao (4, 0)
-O Monstro deu 5 de dano ao Personagem. Vida restante = 305
+O Personagem deu 10 de dano ao monstro na posicao (4, 0)
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -711,7 +710,7 @@ L . . . . . . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-[d] Personagem adquiriu o objeto arco com status de 5
+[d]Personagem adquiriu o objeto arco com status de 5
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -723,7 +722,7 @@ L . . . . . . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-[v] Personagem adquiriu o objeto alho_poro com status de 10
+[v]Personagem adquiriu o objeto alho_poro com status de 10
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -735,7 +734,7 @@ L . . . . . . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-[v] Personagem adquiriu o objeto veneno com status de -10
+[v]Personagem adquiriu o objeto veneno com status de -10
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -803,7 +802,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 O Personagem deu 35 de dano ao monstro na posicao (3, 9)
-O Monstro deu 50 de dano ao Personagem. Vida restante = 255
+O Monstro deu 50 de dano ao Personagem. Vida restante = 260
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -816,7 +815,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 O Personagem deu 35 de dano ao monstro na posicao (2, 9)
-O Monstro deu 50 de dano ao Personagem. Vida restante = 205
+O Monstro deu 50 de dano ao Personagem. Vida restante = 210
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . P
@@ -905,7 +904,7 @@ L . . . . . . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-[d] Personagem adquiriu o objeto maldicao com status de -10
+[d]Personagem adquiriu o objeto maldicao com status de -10
 L * . . U d . . . U
 L . . . . . . . . R
 . P . . . . . . . R
@@ -928,8 +927,7 @@ L . . . . . . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-O Personagem deu 25 de dano ao monstro na posicao (1, 0)
-O Monstro deu 5 de dano ao Personagem. Vida restante = 200
+O Personagem deu 10 de dano ao monstro na posicao (1, 0)
 L * . . U d . . . U
 P . . . . . . . . R
 . . . . . . . . . R
@@ -942,7 +940,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d . . . U
-L P . . . . . . . R
+. P . . . . . . . R
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -953,7 +951,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d . . . U
-L . P . . . . . . R
+. . P . . . . . . R
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -964,7 +962,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d . . . U
-L . . P . . . . . R
+. . . P . . . . . R
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -975,7 +973,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d . . . U
-L . . . P . . . . R
+. . . . P . . . . R
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -986,7 +984,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d . . . U
-L . . . . P . . . R
+. . . . . P . . . R
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -997,7 +995,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d . . . U
-L . . . . . P . . R
+. . . . . . P . . R
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1008,7 +1006,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d . . . U
-L . . . . . . P . R
+. . . . . . . P . R
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1019,7 +1017,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d . . . U
-L . . . . . . . P R
+. . . . . . . . P R
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1029,10 +1027,9 @@ L . . . . . . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-O Personagem deu 25 de dano ao monstro na posicao (1, 9)
-O Monstro deu 5 de dano ao Personagem. Vida restante = 195
+O Personagem deu 9 de dano ao monstro na posicao (1, 9)
 L * . . U d . . . U
-L . . . . . . . . P
+. . . . . . . . . P
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1043,13 +1040,12 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 O Personagem deu 25 de dano ao monstro na posicao (0, 9)
-O Monstro deu 2 de dano ao Personagem. Vida restante = 193
+O Monstro deu 2 de dano ao Personagem. Vida restante = 208
+O Personagem deu 1 de dano ao monstro na posicao (0, 9)
 O Personagem deu 25 de dano ao monstro na posicao (0, 9)
-O Monstro deu 5 de dano ao Personagem. Vida restante = 188
-O Personagem deu 25 de dano ao monstro na posicao (0, 9)
-O Monstro deu 5 de dano ao Personagem. Vida restante = 183
+O Monstro deu 5 de dano ao Personagem. Vida restante = 203
 L * . . U d . . . P
-L . . . . . . . . R
+. . . . . . . . . .
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1060,7 +1056,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d . . P U
-L . . . . . . . . R
+. . . . . . . . . .
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1071,7 +1067,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d . P . U
-L . . . . . . . . R
+. . . . . . . . . .
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1082,7 +1078,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . . U d P . . U
-L . . . . . . . . R
+. . . . . . . . . .
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1092,9 +1088,9 @@ L . . . . . . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-[d] Personagem adquiriu o objeto garrafa com status de -20
+[d]Personagem adquiriu o objeto garrafa com status de -20
 L * . . U P . . . U
-L . . . . . . . . R
+. . . . . . . . . .
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1106,7 +1102,7 @@ D . . . . D . . . .
 
 O Personagem deu 5 de dano ao monstro na posicao (0, 4)
 L * . . P . . . . U
-L . . . . . . . . R
+. . . . . . . . . .
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1117,7 +1113,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * . P . . . . . U
-L . . . . . . . . R
+. . . . . . . . . .
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1128,7 +1124,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 L * P . . . . . . U
-L . . . . . . . . R
+. . . . . . . . . .
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1138,10 +1134,8 @@ L . . . . . . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-O Personagem deu 5 de dano ao monstro na posicao (0, 1)
-O Monstro deu 100 de dano ao Personagem. Vida restante = 83
 L P . . . . . . . U
-L . . . . . . . . R
+. . . . . . . . . .
 . . . . . . . . . R
 . . . . . . . . . R
 L . . . . . . . . .
@@ -1151,3 +1145,4 @@ L . . . . . . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
+Chegou ao fim!

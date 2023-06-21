@@ -1,44 +1,109 @@
 #  Link nas masmorras de Hyrule.
 
 class Link:
+    ''' Classe referente ao objeto Link.
+        '''
     def __init__(self, life, damage, position, alive):
+        ''' Inicia os parâmetros da classe Link.
+            '''
         self._life = life
         self._damage = damage
         self._position = position
         self._alive = alive
 
     def walking_right(self):
-        self._position = (self._position[0], self._position[1] + 1)
+        ''' Movimenta o personagem Link para a direita.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            None
+            '''
+        self.position = (self.position[0], self.position[1] + 1)
 
     def walking_left(self):
-        self._position = (self._position[0], self._position[1] - 1)
+        ''' Movimenta o personagem Link para a esquerda.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            None
+            '''
+        self.position = (self.position[0], self.position[1] - 1)
 
     def walking_up(self):
-        self._position = (self._position[0] - 1, self._position[1])
+        ''' Movimenta o personagem Link para cima.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            None
+            '''
+        self.position = (self.position[0] - 1, self.position[1])
 
     def walking_down(self):
-        self._position = (self._position[0] + 1, self._position[1])
+        ''' Movimenta o personagem Link para baixo.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            None
+            '''
+        self.position = (self.position[0] + 1, self.position[1])
 
     def walking(self, dungeon):
-        if self._position[0] % 2 == 0:
-            if (self._position[1] - 1) >= 0:
+        ''' Movimenta o mostro de acordo com as limitações dadas
+        pela estrutura da masmorra. Nela, ele apenas pode se mover
+        para cima, para a esquerda caso esteja em linha par e para
+        a direita caso esteja em linha ímpar.
+        Parâmetros:
+        argumentos:
+            self (class)
+            dungeon (class)
+        retorno:
+            None
+            '''
+        if self.position[0] % 2 == 0:
+            if (self.position[1] - 1) >= 0:
                 self.walking_left()
-            elif self._position[1] == 0 and self._position[0] != 0:
+            elif self.position[1] == 0 and self.position[0] != 0:
                 self.walking_up()
-        elif self._position[0] % 2 != 0:
-            if (self._position[1] + 1) < dungeon.columns:
+        elif self.position[0] % 2 != 0:
+            if (self.position[1] + 1) < dungeon.columns:
                 self.walking_right()
-            elif (self._position[1]) == dungeon.columns - 1 and self._position[0] != 0:
+            elif (self.position[1]) == dungeon.columns - 1 and self.position[0] != 0:
                 self.walking_up()
 
     def living(self):
-        if self._life == 0:
-            self._alive = False
-        elif self._life > 0:
-            self._alive = True
-        return self._alive
+        ''' Averigua se Link está vivo de acordo com
+        o valor de sua vida.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            self.alive (bool)
+            '''
+        if self.life == 0:
+            self.alive = False
+        else:
+            self.alive = True
+        return self.alive
 
     def collect_object(self, objects):
+        ''' Para cada posição verifica se há objetos, e em caso
+        de existẽncia, link os absorve. Essa ação tem consequência
+        nos parametros de Link mediante o tipo de objeto absorvido.
+        Para o objeto "v", há alteração da pontuação da vida de link,
+        já para o tipo "d", seu dano é alterado. Retorna então a lista
+        atualizada de objetos na masmorra e se Link está vivo.
+        Parâmetros:
+        argumentos:
+            self (class)
+            objects (list)
+        retorno:
+            objects (list)
+            self.alive (bool)
+            '''
         used_objects = []
         for object in objects:
             if self._position == object._position:
@@ -56,25 +121,49 @@ class Link:
 
         for object in used_objects:
             objects.remove(object)
+
         return objects, self.alive
 
     def combat(self, monsters):
+        ''' Para cada posição verifica se há monstros, e em caso
+        de existẽncia, link combate-os de acordo com a ordem de inserção
+        na posição. Link é o primeiro a atacar, e caso sobreviva recebe o
+        ataque do monstro. Na possibilidade de existência de mais de um
+        monstro na posição esse processo se repete. Retorna então a lista
+        atualizada de monstros na masmorra e se Link está vivo.
+        Parâmetros:
+        argumentos:
+            self (class)
+            monsters (list)
+        retorno:
+            monsters (list)
+            self.alive (bool)
+            '''
         dead_monsters = []
         for monster in monsters:
-            if self._position == monster._position:
-                monster._life -= self._damage
-                print("O Personagem deu ", self._damage, " de dano ao monstro na posicao ", self._position, sep='')
+            if self.position == monster.position:
+                m_death_value = monster.life
+                monster.life -= self.damage
                 monster.life = max(0, monster.life)
-                monster._alive = monster.living()
-                if monster._alive:
-                    self._life -= monster._attack
-                    self._life = max(0, self._life)
-                    print("O Monstro deu ", monster._attack, " de dano ao Personagem. Vida restante = ", self._life, sep='')
-                    self._alive = self.living()
-                elif not monster._alive:
+                monster.alive = monster.living()
+                if monster.alive:
+                    print("O Personagem deu ", self.damage, " de dano ao monstro na posicao ", self.position, sep='')
+                    l_death_value = self.life
+                    self.life -= monster.attack
+                    self.life = max(0, self.life)
+                    self.alive = self.living()
+                    if self.alive:
+                        print("O Monstro deu ", monster.attack, " de dano ao Personagem. Vida restante = ", self.life, sep='')
+                    else:
+                        print("O Monstro deu ", l_death_value, " de dano ao Personagem. Vida restante = ", self.life, sep='')
+                        break
+                else:
+                    print("O Personagem deu ", m_death_value, " de dano ao monstro na posicao ", self.position, sep='')
                     dead_monsters.append(monster)
+
         for monster in dead_monsters:
             monsters.remove(monster)
+
         return monsters, self.alive
 
     @property
@@ -110,44 +199,72 @@ class Link:
         self._alive = alive
 
 class Room:
+    ''' Classe referente ao objeto Room (masmorras).
+        '''
     def __init__(self, lines, columns, exit):
+        ''' Inicia os parâmetros da classe Room.
+            '''
         self._lines = lines
         self._columns = columns
         self._exit = exit
 
-    def create_room(self, stamp_room, monster_details, link, object_details):
-        end = False
+    def create_room(self, stamp_room, monsters, link, objects):
+        ''' De acordo com a linhas e colunas, cria uma matriz de pontinhos para
+        representar a masmorra. Coloca posteriormente nela os atifícios do jogo
+        pela ordem de prioridade, sendo do menos prioritário para o mais
+        (objetos, monstros, saída e personagem). Por fim, chama a função "stamp_room"
+        responsável por imprimir a sala e retorna por meio de uma booleana se
+        link está na posição de saída.
+        Parâmetros:
+        argumentos:
+            self (class)
+            stamp_room ()
+            monsters (list)
+            link (class)
+            objects (list)
+        retorno:
+            end (bool)
+            '''
+        left_dungeon = False
         room = []
-        for _ in range(self._lines):
+        for _ in range(self.lines):
             line = []
-            for _ in range(self._columns):
+            for _ in range(self.columns):
                 line.append('.')
             room.append(line)
 
         created = False
         while not created:
 
-            for o in object_details:
-                room[o._position[0]][o._position[1]] = o._type
+            for o in objects:
+                room[o.position[0]][o.position[1]] = o.type
 
-            for m in monster_details:
-                room[m._position[0]][m._position[1]] = m.type
+            for m in monsters:
+                room[m.position[0]][m.position[1]] = m.type
 
-            room[self._exit[0]][self._exit[1]] = "*"
+            room[self.exit[0]][self.exit[1]] = "*"
 
-            if link._alive:
-                room[link._position[0]][link._position[1]] = "P"
+            if link.alive:
+                room[link.position[0]][link.position[1]] = "P"
                 if link.position == self.exit:
-                    end = True
+                    left_dungeon = True
                 created = True
-            elif not link._alive:
-                room[link._position[0]][link._position[1]] = "X"
-                end = True
+            else:
+                room[link.position[0]][link.position[1]] = "X"
+                left_dungeon = True
                 created = True
         stamp_room(room)
-        return end
+        return left_dungeon
 
     def stamp_room(self, room):
+        ''' Imprime a sala criada.
+        Parâmetros:
+        argumentos:
+            self (class)
+            room (list)
+        retorno:
+            None
+            '''
         for room_line in range(len(room)):
             print(*room[room_line])
         print()
@@ -178,7 +295,11 @@ class Room:
 
 
 class Monster:
+    ''' Classe referente ao objeto monstro.
+        '''
     def __init__(self, life, attack, type, position, alive):
+        ''' Inicia os parâmetros da classe monstro.
+            '''
         self._life = life
         self._attack = attack
         self._type = type
@@ -186,37 +307,82 @@ class Monster:
         self._alive = alive
 
     def walking_right(self):
-        self._position = (self._position[0], self._position[1] + 1)
+        ''' Movimenta o mostro para a direita.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            None
+            '''
+        self.position = (self.position[0], self.position[1] + 1)
 
     def walking_left(self):
-        self._position = (self._position[0], self._position[1] - 1)
+        ''' Movimenta o mostro para a esquerda.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            None
+            '''
+        self.position = (self.position[0], self.position[1] - 1)
 
     def walking_up(self):
-        self._position = (self._position[0] - 1, self._position[1])
+        ''' Movimenta o mostro para cima.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            None
+            '''
+        self.position = (self.position[0] - 1, self.position[1])
 
     def walking_down(self):
-        self._position = (self._position[0] + 1, self._position[1])
+        ''' Movimenta o mostro para baixo.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            None
+            '''
+        self.position = (self.position[0] + 1, self.position[1])
 
     def walking(self, dungeon):
-        if self._type == "U":
-            if self._position[0] != 0:
+        ''' Movimenta o mostro de acordo com as limitações dadas
+        pelo o tipo do monstro.
+        Parâmetros:
+        argumentos:
+            self (class)
+            dungeon (class)
+        retorno:
+            None
+            '''
+        if self.type == "U":
+            if self.position[0] != 0:
                 self.walking_up()
-        elif self._type == "D":
-            if self._position[0] != dungeon._lines - 1:
+        elif self.type == "D":
+            if self.position[0] != dungeon.lines - 1:
                 self.walking_down()
-        elif self._type == "L":
-            if self._position[1] != 0:
+        elif self.type == "L":
+            if self.position[1] != 0:
                 self.walking_left()
-        elif self._type == "R":
-            if self._position[1] != dungeon._columns - 1:
+        elif self.type == "R":
+            if self.position[1] != dungeon.columns - 1:
                 self.walking_right()
 
     def living(self):
-        if self._life == 0:
-            self._alive = False
-        elif self._life > 0:
-            self._alive = True
-        return self._alive
+        ''' Averigua se o monstro está vivo de acordo com
+        o valor de sua vida.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            self.alive (bool)
+            '''
+        if self.life == 0:
+            self.alive = False
+        else:
+            self.alive = True
+        return self.alive
 
     @property
     def life(self):
@@ -259,7 +425,11 @@ class Monster:
         self._alive = alive
 
 class Object:
+    ''' Classe referente aos objetos da classe Objeto.
+        '''
     def __init__(self, name, type, position, status):
+        ''' Inicia os parâmetros da classe objeto.
+            '''
         self._name = name
         self._type = type
         self._position = position
@@ -306,44 +476,49 @@ def main():
     link = Link(int(initial_life), int(initial_damage), link_position, link_alive)
     dungeon = Room(int(lines), int(columns), exit_position)
     beginning = True
-    end = False
+    left_dungeon = False
 
-    end = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
-    while not end:
+    left_dungeon = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
 
-        while beginning:
+    while beginning:
 
-            if link._position[0] != dungeon._lines - 1:
-                link.walking_down()
-                for monster in monster_details:
-                    monster.walking(dungeon)
-                object_details, link_alive = link.collect_object(object_details)
-                monster_details, link_alive = link.combat(monster_details)
-                end = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
-                if not link_alive:
-                    beginning = False
-                    end = True
-            elif link._position[0] == dungeon._lines - 1:
-                beginning = False
+        if link.position[0] != dungeon.lines - 1:
 
-        if not end:
-
-            link.walking(dungeon)
+            link.walking_down()
             for monster in monster_details:
                 monster.walking(dungeon)
+
+            if link.position != dungeon.exit:
+                object_details, link_alive = link.collect_object(object_details)
+                monster_details, link_alive = link.combat(monster_details)
+                left_dungeon = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
+            else:
+                beginning = False
+                left_dungeon = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
+
+            if not link_alive:
+                beginning = False
+                left_dungeon = True
+
+        else:
+            beginning = False
+
+    while not left_dungeon:
+
+        link.walking(dungeon)
+        for monster in monster_details:
+            monster.walking(dungeon)
+
+        if link.position != dungeon.exit:
             object_details, link_alive = link.collect_object(object_details)
             monster_details, link_alive = link.combat(monster_details)
-            end = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
-            # problema teste 5 para sair do loop
+            left_dungeon = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
+        else:
+            left_dungeon = dungeon.create_room(dungeon.stamp_room, monster_details, link, object_details)
 
-    if end:
+    if left_dungeon:
         if link_alive:
             print("Chegou ao fim!")
-
-#  se o Link está vivo, ataca
-#  colocar apenas o dano necessário para matar link quando este morre
-
-
 
 
 if __name__ == "__main__":

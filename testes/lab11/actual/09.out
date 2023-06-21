@@ -218,7 +218,7 @@ L . . . . d . . . .
 L . v P . . . . . .
 D . . . . D . . . .
 
-[v] Personagem adquiriu o objeto doce_de_leite com status de 5
+[v]Personagem adquiriu o objeto doce_de_leite com status de 5
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -496,7 +496,7 @@ L . . . . d . . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-[v] Personagem adquiriu o objeto chocolate com status de 5
+[v]Personagem adquiriu o objeto chocolate com status de 5
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -629,7 +629,7 @@ L . . . . d P . . .
 L . . . . . . . . .
 D . . . . D . . . .
 
-[d] Personagem adquiriu o objeto colar com status de 10
+[d]Personagem adquiriu o objeto colar com status de 10
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
@@ -686,9 +686,7 @@ L . . . . . . . . .
 D . . . . D . . . .
 
 O Personagem deu 20 de dano ao monstro na posicao (4, 0)
-O Monstro deu 50 de dano ao Personagem. Vida restante = 0
-O Personagem deu 20 de dano ao monstro na posicao (4, 0)
-O Monstro deu 5 de dano ao Personagem. Vida restante = 0
+O Monstro deu 10 de dano ao Personagem. Vida restante = 0
 L * . . U d . . . U
 L . . . . . . . . R
 . d . . . . . . . R
