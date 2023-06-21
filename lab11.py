@@ -340,6 +340,11 @@ def main():
         if link_alive:
             print("Chegou ao fim!")
 
+#  se o Link está vivo, ataca
+#  colocar apenas o dano necessário para matar link quando este morre
+
+
+
 
 if __name__ == "__main__":
     main()
