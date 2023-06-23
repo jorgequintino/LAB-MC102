@@ -3,12 +3,20 @@ class Player:
         self._hand = hand
 
     def set_hand(self):
+        hand_value = Card.set_cards_value()
+        hand_value = Card.sort_hand(hand_value)
+        #  call set_card_values
+        #  call sort_cards
         pass
 
     def pile():
+        #  add the discarded card on it
+
         pass
 
     def discard_cards(self):
+        #  remove said card out of his hand
+        #  probably a hand.remove()
         pass
 
     def play():
@@ -26,12 +34,15 @@ class Card(Player):
     def __init__(self, hand):
         super().__init__(hand)
 
-    def set_cards_value(self, hand):
+    def something_card_in_hand():
+        pass
+
+    def set_cards_value(self):
         set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
         suit = ["O", "E", "C", "P"]
         hand_value = []
         hand_print = {}
-        for card in hand:
+        for card in self.hand:
             # criar dicionário cuja chave é o valor usado no código para poder imprimir as cartas pela escrita normal.
             value = 0
             for index1, i in enumerate(set):
