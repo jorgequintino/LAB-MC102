@@ -51,7 +51,7 @@ class Card(Player):
                         if index1 == 0:
                             value = 0
                         else:
-                            value = 2 * (index1 + 1)
+                            value = 2 ** (index1 + 1)
                         for index2, k in enumerate(suit):
                             if card[1:2] == k:
                                 value += index2
@@ -62,7 +62,7 @@ class Card(Player):
                         if index1 == 0:
                             value = 0
                         else:
-                            value = 2 * (index1 + 1)
+                            value = 2 ** (index1 + 1)
                         for index2, k in enumerate(suit):
                             if card[2:3] == k:
                                 value += index2
