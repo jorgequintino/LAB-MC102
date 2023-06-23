@@ -2,24 +2,24 @@ class Player:
     def __init__(self, hand):
         self._hand = hand
 
-    def set_hand(self):
-        hand_value = Card.set_cards_value()
-        hand_value = Card.sort_hand(hand_value)
-        #  call set_card_values
-        #  call sort_cards
-        pass
-
-    def pile():
-        #  add the discarded card on it
-
-        pass
-
     def discard_cards(self):
         #  remove said card out of his hand
         #  probably a hand.remove()
         pass
 
     def play():
+        #  
+        pass
+
+    def binary_search(self, card):
+        if card == self.hand[len(self.hand // 2)]:
+            return len(self.hand) // 2
+        elif card < self.hand[len(self.hand // 2)]:
+            return self.binary_search(self.hand[:len(self.hand // 2)])
+        else:
+            return self.binary_search(self.hand[len(self.hand) // 2:])
+        
+    def stamp_hand(self):
         pass
 
     @property
@@ -30,9 +30,32 @@ class Player:
     def hand(self, hand):
         self._hand = hand
 
-class Card(Player):
-    def __init__(self, hand):
-        super().__init__(hand)
+class Pile:
+    def __init__(self, card):
+        self._card = card
+
+    def add_pile():
+        #  pegar as cartas descartadas dos players 
+        #  
+        pass
+
+    def clean_pile():
+        pass
+
+    def stamp_pile():
+        pass
+
+    @property
+    def card(self):
+        return self._card
+
+    @card.setter
+    def card(self, card):
+        self._card = card
+
+class Cards:
+    def __init__(self, cards):
+        pass
 
     def something_card_in_hand():
         pass
@@ -41,36 +64,26 @@ class Card(Player):
         set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
         suit = ["O", "E", "C", "P"]
         hand_value = []
-        hand_print = {}
         for card in self.hand:
-            # criar dicionário cuja chave é o valor usado no código para poder imprimir as cartas pela escrita normal.
-            value = 0
             for index1, i in enumerate(set):
+                value = 0
                 if i != "10":
                     if card[:1] == i:
-                        if index1 == 0:
-                            value = 0
-                        else:
-                            value = 2 ** (index1 + 1)
+                        value = 4 * index1
                         for index2, k in enumerate(suit):
                             if card[1:2] == k:
                                 value += index2
                                 hand_value.append(value)
-                                hand_print[value] = i + k
                 else:
                     if card[:2] == i:
-                        if index1 == 0:
-                            value = 0
-                        else:
-                            value = 2 ** (index1 + 1)
+                        value = 4 * index1
                         for index2, k in enumerate(suit):
                             if card[2:3] == k:
                                 value += index2
                                 hand_value.append(value)
-                                hand_print[value] = i + k
-        return hand_value, hand_print
+        return hand_value
 
-    def sort_hand(self, hand_value):
+    def sort_cards(self, hand_value):
         for i in range(len(hand_value) - 1):
             smallest = i
             for k in range(i, len(hand_value)):
@@ -79,13 +92,26 @@ class Card(Player):
             hand_value[i], hand_value[smallest] = hand_value[smallest], hand_value[i]
         return hand_value
 
-    def binary_search(self, card):
-        if card == self.hand[len(self.hand // 2)]:
-            return len(self.hand) // 2
-        elif card < self.hand[len(self.hand // 2)]:
-            return self.binary_search(self.hand[:len(self.hand // 2)])
-        else:
-            return self.binary_search(self.hand[len(self.hand) // 2:])
+    def stamp_cards(self):
+        set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+        suit = ["O", "E", "C", "P"]
+        hand_print = {}
+
+        for index1, i in enumerate(set):
+            value = 0
+            if i != "10":
+                value = 4 * index1
+                for index2, k in enumerate(suit):
+                    value += index2
+                    hand_print[value] = i + k
+            else:
+                value = 4 * index1
+                for index2, k in enumerate(suit):
+                    value += index2
+                    hand_print[value] = i + k
+
+        # print()
+        return hand_print
 
 def main():
     player_numb = int(input())
@@ -101,7 +127,11 @@ def main():
             else:
                 hand.append(hand_str[i: i + 2])
                 i += 4
-        players.append(Player(hand, ))
+        #  talvez usar a classe cards para fazer funcionar melhor na hora de add na lista de players
+        cards = Cards.set_cards_value(hand)
+        cards = Cards.sort_cards(hand)
+        players.append(Player(cards))
+
     dare_plays = int(input())
 
 
