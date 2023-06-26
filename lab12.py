@@ -1,6 +1,7 @@
 class Player:
-    def __init__(self, hand):
+    def __init__(self, hand, numb):
         self._hand = hand
+        self._numb = numb
 
     def discard_cards(self):
         #  remove said card out of his hand
@@ -17,13 +18,17 @@ class Player:
         pass
 
     def binary_search(self, card):
-        # e quando ele não tem a carta?
-        if card == self.hand[len(self.hand // 2)]:
-            return len(self.hand) // 2
-        elif card < self.hand[len(self.hand // 2)]:
-            return self.binary_search(self.hand[:len(self.hand // 2)])
-        else:
-            return self.binary_search(self.hand[len(self.hand) // 2:])
+        beginning = 0
+        end = len(self.hand) - 1
+        while beginning <= end:
+            middle = (beginning + end) // 2
+            if self.hand[middle] == card:
+                return middle
+            elif self.hand[middle] < card:
+                middle = end + 1
+            else:
+                beginning = middle - 1
+        return -1
         
     def sort_hand(self, hand_value):
         for i in range(len(hand_value) - 1):
@@ -34,7 +39,7 @@ class Player:
             hand_value[i], hand_value[smallest] = hand_value[smallest], hand_value[i]
         return hand_value[:-1]
 
-    def stamp_hand(self):
+    def stamp_hand(self, hand):
         set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
         suit = ["O", "E", "C", "P"]
         hand_print = {}
@@ -52,8 +57,12 @@ class Player:
                     value += index2
                     hand_print[value] = i + k
 
-        # print()
-        return hand_print
+        print("Jogador ", self.numb, sep='')
+        hand_cards = ""
+        for i in hand_print:
+            # se a chave é igual ao valor da carta na mão
+            hand_cards += " " + hand_print[i]
+        print("Mão:", hand_cards, sep='')
 
     @property
     def hand(self):
@@ -63,16 +72,20 @@ class Player:
     def hand(self, hand):
         self._hand = hand
 
+    @property
+    def numb(self):
+        return self._numb
+
 class Pile:
     def __init__(self, pile_list):
-        self._card = pile_list
+        self._pile_list = pile_list
 
     def add_pile(self, card):
-        self.pile_list = self.pile_list.append(card)
+        self.pile_list.append(card)
         return self.pile_list
 
     def clean_pile(self):
-        self.pile_list = self.pile_list.remove()
+        self.pile_list = []
         return self.pile_list
 
     def stamp_pile(self):
@@ -85,10 +98,10 @@ class Pile:
             print("Pilha:", pile_str, sep='')
 
     @property
-    def pile(self):
-        return self.pile
+    def pile_list(self):
+        return self._pile_list
 
-    @pile.setter
+    @pile_list.setter
     def pile(self, pile):
         self._pile = pile
 
@@ -136,17 +149,17 @@ class Card:
 def main():
     player_numb = int(input())
     players = []  # [hand0, hand1, hand2, ...]
-    for _ in range(player_numb):
+    for numb in range(player_numb):
         hand_str = input().split(', ')
         hand = []  # [card0, card1, car2, ...]
         for i in range(len(hand_str)):
             card_str, card_value = Card.set_card_value(hand_str[i])
             card = Card(card_str, card_value)
             hand.append(card)
-        player = Player(hand)
+        player = Player(hand, numb + 1)
         players.append(player.sort_hand(hand))
     dare_plays = int(input())
-    
+
     pile = Pile([])
 
 
