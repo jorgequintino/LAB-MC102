@@ -16,8 +16,15 @@
 # # y = d.split(', ')
 # # print(y)
 
-pile_list = ["KP", "QP", "10E", "6E", "4C", "2C"]
-pile_str = ""
-for card_pile in pile_list:
-    pile_str += " " + card_pile
-print("Pilha:", sep='')
+# pile_list = ["KP", "QP", "10E", "6E", "4C", "2C"]
+# pile_str = ""
+# for card_pile in pile_list:
+#     pile_str += " " + card_pile
+# print("Pilha:", sep='')
+f = 0 // 4
+d = 1 // 4
+z = 4 // 4
+g = 5 // 4
+h = 7 // 4
+k = 8 // 4
+print(f, d, z, g, h, k)

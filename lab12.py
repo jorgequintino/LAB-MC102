@@ -7,9 +7,21 @@ class Player:
     def discard_cards(self, pile):
         if pile.pile_list []:
             amount_cards_discarded = []
-            # procurar outras cartas daquele valor (resto da divisão por 4)
+            # procurar outras cartas daquele valor (resto  divisão inteirapor 4)
             carta = self.sorted_hand[len(self.sorted_hand) - 1]
+            amount_cards_discarded.append(carta)
+            search = []
+            for i in range(50):
+                if (i // 4) == (carta // 4):
+                    search.append(i)
+            for k in range(len(search)):
+                index = self.binary_search(k)
+                if index != -1 :
+                    amount_cards_discarded.append(index)
+            # descartar todas essas cartas
+
             
+
 
 
         #  remove said card out of his hand
