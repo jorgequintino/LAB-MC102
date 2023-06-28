@@ -1,43 +1,37 @@
 class Player:
-    def __init__(self, hand, numb):
+    def __init__(self, hand, numb, sorted_hand):
         self._hand = hand
         self._numb = numb
+        self._sorted_hand = sorted_hand
 
-    def discard_cards(self):
+    def discard_cards(self, pile):
+        if pile.pile_list []:
+            amount_cards_discarded = []
+            # procurar outras cartas daquele valor (resto da divisão por 4)
+            carta = self.sorted_hand[len(self.sorted_hand) - 1]
+            
+
+
         #  remove said card out of his hand
         #  probably a hand.remove()
-        pass
-
-    def play():
-        #  
         pass
     
     def doubt(self, doubted, dare_plays):
         if doubted == dare_plays:
-
-        pass
+            pass
 
     def binary_search(self, card):
         beginning = 0
-        end = len(self.hand) - 1
+        end = len(self.sorted_hand) - 1
         while beginning <= end:
             middle = (beginning + end) // 2
-            if self.hand[middle] == card:
+            if self.sorted_hand[middle].card_value == card:
                 return middle
-            elif self.hand[middle] < card:
-                middle = end + 1
+            elif self.sorted_hand[middle].card_value > card:
+                beginning = middle + 1
             else:
-                beginning = middle - 1
+                end = middle - 1
         return -1
-        
-    def sort_hand(self, hand_value):
-        for i in range(len(hand_value) - 1):
-            smallest = i
-            for k in range(i, len(hand_value)):
-                if hand_value[smallest] > hand_value[k]:
-                    smallest = k
-            hand_value[i], hand_value[smallest] = hand_value[smallest], hand_value[i]
-        return hand_value[:-1]
 
     def stamp_hand(self, hand):
         set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
@@ -76,6 +70,14 @@ class Player:
     def numb(self):
         return self._numb
 
+    @property
+    def sorted_hand(self):
+        return self._sorted_hand
+
+    @sorted_hand.setter
+    def sorted_hand(self, sorted_hand):
+        self.sorted_hand = sorted_hand
+
 class Pile:
     def __init__(self, pile_list):
         self._pile_list = pile_list
@@ -110,25 +112,8 @@ class Card:
         self._card = card
         self._card_value = value
 
-    def set_card_value(self, card):
-        set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
-        suit = ["O", "E", "C", "P"]
-        for index1, i in enumerate(set):
-            value = 0
-            if i != "10":
-                if card[:1] == i:
-                    value = 4 * index1
-                    for index2, k in enumerate(suit):
-                        if card[1:2] == k:
-                            value += index2
-                            return card, value
-            else:
-                if card[:2] == i:
-                    value = 4 * index1
-                    for index2, k in enumerate(suit):
-                        if card[2:3] == k:
-                            value += index2
-                            return card, value
+    # def __str__(self):
+    #     return str(self.card)
 
     @property
     def card(self):
@@ -139,12 +124,41 @@ class Card:
         self._card = card
 
     @property
-    def value(self):
-        return self._value
+    def card_value(self):
+        return self._card_value
 
-    @value.setter
-    def value(self, value):
-        self._value = value
+    @card_value.setter
+    def card_value(self, value):
+        self._card_value = value
+
+def set_card_value(card):
+    set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
+    suit = ["O", "E", "C", "P"]
+    for index1, i in enumerate(set):
+        value = 0
+        if i != "10":
+            if card[:1] == i:
+                value = 4 * index1
+                for index2, k in enumerate(suit):
+                    if card[1:2] == k:
+                        value += index2
+                        return card, value
+        else:
+            if card[:2] == i:
+                value = 4 * index1
+                for index2, k in enumerate(suit):
+                    if card[2:3] == k:
+                        value += index2
+                        return card, value
+
+def sort_hand(hand_value):
+    for i in range(len(hand_value)):
+        smallest = i
+        for k in range(i, len(hand_value)):
+            if hand_value[smallest].card_value > hand_value[k].card_value:
+                smallest = k
+        hand_value[i], hand_value[smallest] = hand_value[smallest], hand_value[i]
+    return hand_value[::-1]
 
 def main():
     player_numb = int(input())
@@ -153,12 +167,13 @@ def main():
         hand_str = input().split(', ')
         hand = []  # [card0, card1, car2, ...]
         for i in range(len(hand_str)):
-            card_str, card_value = Card.set_card_value(hand_str[i])
+            card_str, card_value = set_card_value(hand_str[i])
             card = Card(card_str, card_value)
             hand.append(card)
-        player = Player(hand, numb + 1)
-        players.append(player.sort_hand(hand))
-    dare_plays = int(input())
+        sorted_hand = sort_hand(hand)
+        player = Player(hand, numb + 1, sorted_hand)
+        players.append(player)
+    # dare_plays = int(input())
 
     pile = Pile([])
 
