@@ -52,19 +52,24 @@ class Player:
             pass
 
     def binary_search(self, card):
+        bluff = True
         beginning = 0
         end = len(self.sorted_hand) - 1
         while beginning <= end:
             middle = (beginning + end) // 2
             if self.sorted_hand[middle].card_value == card:
+                bluff = False
                 # checar as cartas a esquerda até as iguais (f)
                 # checar as cartas iguais da esquerda para retornar o fim(h)
-                return middle
+                return middle, bluff
             elif self.sorted_hand[middle].card_value > card:
+                #  salvar a posição da carta mais próxima
+                #  fazer o f e h tbm
                 beginning = middle + 1
+                bluff = False
             else:
                 end = middle - 1
-        return -1
+        return -1, bluff
 
     def stamp_hand(self, hand):
         set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
@@ -184,10 +189,11 @@ def set_card_value(card):
         else:
             if card[:2] == i:
                 value = 4 * index1
+                power = value
                 for index2, k in enumerate(suit):
                     if card[2:3] == k:
                         value += index2
-                        return card, value
+                        return card, value, power
 
 def sort_hand(hand_value):
     for i in range(len(hand_value)):
