@@ -39,8 +39,9 @@ class Player:
             self.discard_last_card()
         return 1  # usar como contador
 
-    def doubt(self, doubted, dare_plays):
-        if doubted == dare_plays:
+    def doubt(self, doubted, dare_plays, pile, player):
+        if pile.last_card // 4 >= x:  # descobrir x
+            player.numb
             pass
 
     def binary_search(self, card):
