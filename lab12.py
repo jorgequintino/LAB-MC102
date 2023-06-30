@@ -4,30 +4,41 @@ class Player:
         self._numb = numb
         self._sorted_hand = sorted_hand
 
-    def discard_cards(self, pile):
-        if pile.pile_list []:
-            amount_cards_discarded = []
-            # procurar outras cartas daquele valor (resto  divisão inteirapor 4)
-            carta = self.sorted_hand[len(self.sorted_hand) - 1]
-            amount_cards_discarded.append(carta)
-            search = []
-            for i in range(50):
-                if (i // 4) == (carta // 4):
-                    search.append(i)
-            for k in range(len(search)):
-                index = self.binary_search(k)
-                if index != -1 :
-                    amount_cards_discarded.append(index)
+    def discard_last_card(self, pile):
+        cards_discarded = []
+        # procurar outras cartas daquele valor (resto  divisão inteirapor 4)
+        last_card = self.sorted_hand[len(self.sorted_hand) - 1]
+        cards_discarded.append(last_card)
+        for card in self.sorted_hand:
+            if (card // 4) == (last_card // 4):
+                cards_discarded.append(last_card)
+        for card_discarded in cards_discarded:
+            pile.pile_list.append(card_discarded)
+            pile.last_card = card_discarded
+            self.sorted_hand.remove(card_discarded)
             # descartar todas essas cartas
 
-            
+    def discard_cards(self, pile):
+        if pile.pile_list != []:
+            # revisar o binary
+            if self.binary_search(pile.last_card) != -1:
+                cards_checked = []
+                # card_checked_index = []
+                for card in self.sorted_hand:
+                    if (card // 4) == (pile.last_card // 4):
+                        cards_checked.append(card)
+                    # verificar s e da problema fazer em um loop só
+                for card_checked in cards_checked:
+                    pile.pile_list.append(card_checked)
+                    pile.last_card = card_checked
+                    self.sorted_hand.remove(card_checked)
+                
+            else:
+                self.discard_last_card()
+        else:
+            self.discard_last_card()
+        return 1  # usar como contador
 
-
-
-        #  remove said card out of his hand
-        #  probably a hand.remove()
-        pass
-    
     def doubt(self, doubted, dare_plays):
         if doubted == dare_plays:
             pass
@@ -91,14 +102,17 @@ class Player:
         self.sorted_hand = sorted_hand
 
 class Pile:
-    def __init__(self, pile_list):
+    def __init__(self, pile_list, last_card, sorted_pile):
         self._pile_list = pile_list
+        self._last_card = last_card
+        self._sorted_pile = sorted_pile
 
     def add_pile(self, card):
         self.pile_list.append(card)
         return self.pile_list
 
     def clean_pile(self):
+        # reset last card
         self.pile_list = []
         return self.pile_list
 
@@ -185,10 +199,11 @@ def main():
         sorted_hand = sort_hand(hand)
         player = Player(hand, numb + 1, sorted_hand)
         players.append(player)
-    # dare_plays = int(input())
+    dare_plays = int(input())
 
-    pile = Pile([])
-
+    doubted = 0
+    pile = Pile([], -1, [])
+    doubted += player.discard_cards(pile)
 
 if __name__ == "__main__":
     main()

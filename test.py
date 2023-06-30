@@ -28,3 +28,19 @@ g = 5 // 4
 h = 7 // 4
 k = 8 // 4
 print(f, d, z, g, h, k)
+
+# cards_discarded = []
+#             # procurar outras cartas daquele valor (resto  divisão inteirapor 4)
+#             last_card = self.sorted_hand[len(self.sorted_hand) - 1]
+#             cards_discarded.append(last_card)
+#             search = []
+#             for possible_card in self.sorted_hand:
+#                 if (possible_card // 4) == (last_card // 4):
+#                     search.append(possible_card)
+#             for k in range(len(search)):
+#                 index = self.binary_search(k)
+#                 if index != -1:
+#                     amount_cards_discarded.append(index)
+#             for m in amount_cards_discarded:
+#                 pile.pile_list.append(m)
+#             # descartar todas essas cartas
