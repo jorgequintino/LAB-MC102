@@ -9,6 +9,7 @@ class Player:
         # procurar outras cartas daquele valor (resto  divisão inteirapor 4)
         last_card = self.sorted_hand[len(self.sorted_hand) - 1]
         cards_discarded.append(last_card)
+        # adaptar para o power
         for card in self.sorted_hand:
             if (card // 4) == (last_card // 4):
                 cards_discarded.append(last_card)
@@ -21,12 +22,18 @@ class Player:
     def discard_cards(self, pile):
         if pile.pile_list != []:
             # revisar o binary
-            if self.binary_search(pile.last_card) != -1:
+            # adaptar para power no lugar de value
+            f = self.binary_search(pile.last_card)
+            if f != -1:
                 cards_checked = []
                 # card_checked_index = []
-                for card in self.sorted_hand:
+                # for card in self.sorted_hand:
+                for i in range(f, len(self.sorted_hand)):
+                    card = self.sorted_hand[i]
                     if (card // 4) == (pile.last_card // 4):
                         cards_checked.append(card)
+                    else:
+                        break
                     # verificar s e da problema fazer em um loop só
                 for card_checked in cards_checked:
                     pile.pile_list.append(card_checked)
@@ -50,6 +57,8 @@ class Player:
         while beginning <= end:
             middle = (beginning + end) // 2
             if self.sorted_hand[middle].card_value == card:
+                # checar as cartas a esquerda até as iguais (f)
+                # checar as cartas iguais da esquerda para retornar o fim(h)
                 return middle
             elif self.sorted_hand[middle].card_value > card:
                 beginning = middle + 1
@@ -135,9 +144,10 @@ class Pile:
         self._pile = pile
 
 class Card:
-    def __init__(self, card, value):
+    def __init__(self, card, value, power):
         self._card = card
         self._card_value = value
+        self._card_power = power
 
     # def __str__(self):
     #     return str(self.card)
@@ -166,10 +176,11 @@ def set_card_value(card):
         if i != "10":
             if card[:1] == i:
                 value = 4 * index1
+                power = value
                 for index2, k in enumerate(suit):
                     if card[1:2] == k:
                         value += index2
-                        return card, value
+                        return card, value, power
         else:
             if card[:2] == i:
                 value = 4 * index1
@@ -194,8 +205,8 @@ def main():
         hand_str = input().split(', ')
         hand = []  # [card0, card1, car2, ...]
         for i in range(len(hand_str)):
-            card_str, card_value = set_card_value(hand_str[i])
-            card = Card(card_str, card_value)
+            card_str, card_value, card_power = set_card_value(hand_str[i])
+            card = Card(card_str, card_value, card_power)
             hand.append(card)
         sorted_hand = sort_hand(hand)
         player = Player(hand, numb + 1, sorted_hand)
