@@ -141,10 +141,26 @@ class Pile:
             print("Pilha:", pile_str, sep='')
 
     @property
+    def last_card(self):
+        return self._pile_list
+
+    @last_card.setter
+    def pile(self, pile):
+        self._pile = pile
+
+    @property
     def pile_list(self):
         return self._pile_list
 
     @pile_list.setter
+    def pile(self, pile):
+        self._pile = pile
+    
+    @property
+    def sorted_pile(self):
+        return self._pile_list
+
+    @sorted_pile.setter
     def pile(self, pile):
         self._pile = pile
 
@@ -172,6 +188,14 @@ class Card:
     @card_value.setter
     def card_value(self, value):
         self._card_value = value
+
+    @property
+    def card_power(self):
+        return self._card_power
+
+    @card_power.setter
+    def card_power(self, power):
+        self._card_power = power
 
 def set_card_value(card):
     set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
