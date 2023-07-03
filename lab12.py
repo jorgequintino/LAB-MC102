@@ -96,7 +96,7 @@ class Player:
                         left_limit = k
                         break
                 return bluff, left_limit, right_limit
-            
+
             elif self.sorted_hand[middle].power > card.power:
                 if middle > closest_card:
                     closest_card = middle
@@ -167,7 +167,7 @@ class Pile:
             None
             '''
         self.pile_list.clear()
-        self._last_card = set_card
+        self.last_card = set_card
 
     def stamp_pile(self):
         ''' Função para printar a pilha de descartes.
