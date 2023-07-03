@@ -1,99 +1,132 @@
+# Estrutura do jogo 'Duvido, ou Mentira'
+
 class Player:
+    '''Classe para separ os jogadores.
+    '''
     def __init__(self, hand, numb, sorted_hand):
         self._hand = hand
         self._numb = numb
         self._sorted_hand = sorted_hand
 
-    def discard_last_card(self, pile):
-        cards_discarded = []
-        # procurar outras cartas daquele valor (resto  divisão inteirapor 4)
-        last_card = self.sorted_hand[len(self.sorted_hand) - 1]
-        cards_discarded.append(last_card)
-        # adaptar para o power
-        for card in self.sorted_hand:
-            if (card // 4) == (last_card // 4):
-                cards_discarded.append(last_card)
-        for card_discarded in cards_discarded:
-            pile.pile_list.append(card_discarded)
-            pile.last_card = card_discarded
-            self.sorted_hand.remove(card_discarded)
-            # descartar todas essas cartas
-
-    def discard_cards(self, pile):
-        if pile.pile_list != []:
-            # revisar o binary
-            # adaptar para power no lugar de value
-            f = self.binary_search(pile.last_card)
-            if f != -1:
-                cards_checked = []
-                # card_checked_index = []
-                # for card in self.sorted_hand:
-                for i in range(f, len(self.sorted_hand)):
-                    card = self.sorted_hand[i]
-                    if (card // 4) == (pile.last_card // 4):
-                        cards_checked.append(card)
-                    else:
-                        break
-                    # verificar s e da problema fazer em um loop só
-                for card_checked in cards_checked:
-                    pile.pile_list.append(card_checked)
-                    pile.last_card = card_checked
-                    self.sorted_hand.remove(card_checked)
-                
-            else:
-                self.discard_last_card()
+    def discard_cards(self, pile, bluff, left_limit, right_limit):
+        ''' Função em que se executa o descarte das cartas, mediante o cenário
+        de vlefe ou não. Em caso de blefe, ela descarta as últimas cartas da
+        mão do jogador de mesmo poder.
+        Parâmetros:
+        argumentos:
+            self (class)
+            pile (class)
+            index (int)
+            bluff (bool)
+            left_limit (int)
+            right_limit (int)
+        retorno:
+            None
+            '''
+        if not bluff:
+            pile.pile_list.extend(self.sorted_hand[left_limit: right_limit + 1:][::-1])
+            if self.sorted_hand[left_limit].power > pile.last_card.power:
+                pile.last_card = self.sorted_hand[left_limit]
+            print("[Jogador ", self._numb, "] ", len(self.sorted_hand[left_limit: right_limit + 1]), " carta(s) ", pile.last_card.power_str, sep='')
+            self.sorted_hand = self.sorted_hand[:left_limit] + self.sorted_hand[right_limit + 1:]
         else:
-            self.discard_last_card()
-        return 1  # usar como contador
+            self.discard_last_card(pile)
 
-    def doubt(self, doubted, dare_plays, pile, player):
-        if pile.last_card // 4 >= x:  # descobrir x
-            player.numb
-            pass
+    def discard_last_card(self, pile):
+        ''' Função em que se executa o descarte das últimas cartas da
+        mão do jogador de mesmo poder.
+        Parâmetros:
+        argumentos:
+            self (class)
+            pile (class)
+        retorno:
+            None
+            '''
+        bluff, left_limit, right_limit = self.binary_search(self.sorted_hand[len(self.sorted_hand) - 1])
+        self.discard_cards(pile, bluff, left_limit, right_limit)
+
+    def doubt(self, pile, player, bluff, set_card):
+        ''' Função que executa aas consequencias do blefe para o jogador que
+        perdeu.
+        Parâmetros:
+        argumentos:
+            self (class)
+            pile (class)
+            player (class)
+            bluff (bool)
+            set_card (class)
+        retorno:
+            None
+            '''
+        if bluff:
+            self.sorted_hand.extend(pile.pile_list)
+            self.sorted_hand = sort_hand(self.sorted_hand)
+            pile.clean_pile(set_card)
+        else:
+            player.doubt(pile, player, True, set_card)
 
     def binary_search(self, card):
+        ''' Função em que se executa a busca por cartas de mesmo poder. Na impossibilidade
+        de encontra, retornar a maior que está mais proxima ou quando não há.
+        Parâmetros:
+        argumentos:
+            self (class)
+            class (class)
+        retorno:
+            middle (int)
+            bluff (bool)
+            left_limit (int)
+            right_limit (int)
+            '''
         bluff = True
         beginning = 0
         end = len(self.sorted_hand) - 1
+        closest_card = -1
+        right_limit = -1
+        left_limit = -1
         while beginning <= end:
             middle = (beginning + end) // 2
-            if self.sorted_hand[middle].card_value == card:
+            if self.sorted_hand[middle].power == card.power:
                 bluff = False
-                # checar as cartas a esquerda até as iguais (f)
-                # checar as cartas iguais da esquerda para retornar o fim(h)
-                return middle, bluff
-            elif self.sorted_hand[middle].card_value > card:
-                #  salvar a posição da carta mais próxima
-                #  fazer o f e h tbm
+                for i in range(middle, len(self.sorted_hand)):
+                    if self.sorted_hand[i].power == card.power:
+                        right_limit = i
+                for k in range(0, middle + 1):
+                    if self.sorted_hand[k].power == card.power:
+                        left_limit = k
+                        break
+                return bluff, left_limit, right_limit
+            
+            elif self.sorted_hand[middle].power > card.power:
+                if middle > closest_card:
+                    closest_card = middle
+                    for i in range(middle, len(self.sorted_hand)):
+                        if self.sorted_hand[i].power == self.sorted_hand[closest_card].power:
+                            right_limit = i
+                    for k in range(0, middle + 1):
+                        if self.sorted_hand[k].power == self.sorted_hand[closest_card].power:
+                            left_limit = k
+                            break
                 beginning = middle + 1
                 bluff = False
+
             else:
                 end = middle - 1
-        return -1, bluff
 
-    def stamp_hand(self, hand):
-        set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
-        suit = ["O", "E", "C", "P"]
-        hand_print = {}
+        return bluff, left_limit, right_limit
 
-        for index1, i in enumerate(set):
-            value = 0
-            if i != "10":
-                value = 4 * index1
-                for index2, k in enumerate(suit):
-                    value += index2
-                    hand_print[value] = i + k
-            else:
-                value = 4 * index1
-                for index2, k in enumerate(suit):
-                    value += index2
-                    hand_print[value] = i + k
-
+    def stamp_hand(self):
+        ''' Função que printa a mão do jogador.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            None
+            '''
         print("Jogador ", self.numb, sep='')
         hand_cards = ""
-        for i in hand_print:
-            # se a chave é igual ao valor da carta na mão
-            hand_cards += " " + hand_print[i]
+        for i in range(len(self.sorted_hand)):
+            hand_cards += " " + self.sorted_hand[i].name
         print("Mão:", hand_cards, sep='')
 
     @property
@@ -114,90 +147,110 @@ class Player:
 
     @sorted_hand.setter
     def sorted_hand(self, sorted_hand):
-        self.sorted_hand = sorted_hand
+        self._sorted_hand = sorted_hand
 
 class Pile:
-    def __init__(self, pile_list, last_card, sorted_pile):
+    ''' Classe refente a pilha de descarte
+    '''
+    def __init__(self, pile_list, last_card):
         self._pile_list = pile_list
         self._last_card = last_card
-        self._sorted_pile = sorted_pile
 
-    def add_pile(self, card):
-        self.pile_list.append(card)
-        return self.pile_list
-
-    def clean_pile(self):
-        # reset last card
-        self.pile_list = []
-        return self.pile_list
+    def clean_pile(self, set_card):
+        ''' Função que limpa a pilha. Isto é, reseta para uma lista limpa e
+        e a última carta dela padrão.
+        Parâmetros:
+        argumentos:
+            self (class)
+            set_card (class)
+        retorno:
+            None
+            '''
+        self.pile_list.clear()
+        self._last_card = set_card
 
     def stamp_pile(self):
+        ''' Função para printar a pilha de descartes.
+        Parâmetros:
+        argumentos:
+            self (class)
+        retorno:
+            None
+            '''
         if self.pile_list == []:
             print("Pilha:", sep='')
         else:
             pile_str = ""
             for card_pile in self.pile_list:
-                pile_str += " " + card_pile
+                pile_str += " " + card_pile.name
             print("Pilha:", pile_str, sep='')
 
     @property
     def last_card(self):
-        return self._pile_list
+        return self._last_card
 
     @last_card.setter
-    def pile(self, pile):
-        self._pile = pile
+    def last_card(self, last_card):
+        self._last_card = last_card
 
     @property
     def pile_list(self):
         return self._pile_list
 
     @pile_list.setter
-    def pile(self, pile):
-        self._pile = pile
-    
-    @property
-    def sorted_pile(self):
-        return self._pile_list
-
-    @sorted_pile.setter
-    def pile(self, pile):
-        self._pile = pile
+    def pile_list(self, pile_list):
+        self._pile_pile = pile_list
 
 class Card:
-    def __init__(self, card, value, power):
-        self._card = card
-        self._card_value = value
-        self._card_power = power
-
-    # def __str__(self):
-    #     return str(self.card)
-
-    @property
-    def card(self):
-        return self._card
-
-    @card.setter
-    def card(self, card):
-        self._card = card
+    ''' Classe referente às cartas.
+    '''
+    def __init__(self, name, value, power, power_str):
+        self._name = name
+        self._value = value
+        self._power = power
+        self._power_str = power_str
 
     @property
-    def card_value(self):
-        return self._card_value
+    def name(self):
+        return self._name
 
-    @card_value.setter
-    def card_value(self, value):
-        self._card_value = value
+    @name.setter
+    def name(self, name):
+        self._name = name
 
     @property
-    def card_power(self):
-        return self._card_power
+    def value(self):
+        return self._value
 
-    @card_power.setter
-    def card_power(self, power):
-        self._card_power = power
+    @value.setter
+    def value(self, value):
+        self._value = value
+
+    @property
+    def power(self):
+        return self._power
+
+    @power.setter
+    def power(self, power):
+        self._power = power
+
+    @property
+    def power_str(self):
+        return self._power_str
+
+    @power_str.setter
+    def power_str(self, power_str):
+        self._power_str = power_str
 
 def set_card_value(card):
+    ''' Função que atribui valores para numéricos para as cartas a fim de
+    transformar a execução do código em apenas inteiros.
+        Parâmetros:
+        argumentos:
+            card (class)
+        retorno:
+            None
+            '''
     set = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"]
     suit = ["O", "E", "C", "P"]
     for index1, i in enumerate(set):
@@ -205,25 +258,36 @@ def set_card_value(card):
         if i != "10":
             if card[:1] == i:
                 value = 4 * index1
-                power = value
+                power = index1 + 1
+                power_str = card[:1]
                 for index2, k in enumerate(suit):
                     if card[1:2] == k:
                         value += index2
-                        return card, value, power
+                        return card, value, power, power_str
         else:
             if card[:2] == i:
                 value = 4 * index1
-                power = value
+                power = index1 + 1
+                power_str = card[:2]
                 for index2, k in enumerate(suit):
                     if card[2:3] == k:
                         value += index2
-                        return card, value, power
+                        return card, value, power, power_str
 
 def sort_hand(hand_value):
+    ''' Função que organiza a mão em uma relação decrescente do poder das cartas.
+    Isso é feito ao trocar as artas de lugar entre maior e menor, e a inversão no
+    retorno da lista.
+        Parâmetros:
+        argumentos:
+            hand_value (list)
+        retorno:
+            None
+            '''
     for i in range(len(hand_value)):
         smallest = i
         for k in range(i, len(hand_value)):
-            if hand_value[smallest].card_value > hand_value[k].card_value:
+            if hand_value[smallest].value > hand_value[k].value:
                 smallest = k
         hand_value[i], hand_value[smallest] = hand_value[smallest], hand_value[i]
     return hand_value[::-1]
@@ -235,17 +299,64 @@ def main():
         hand_str = input().split(', ')
         hand = []  # [card0, card1, car2, ...]
         for i in range(len(hand_str)):
-            card_str, card_value, card_power = set_card_value(hand_str[i])
-            card = Card(card_str, card_value, card_power)
+            card_str, card_value, card_power, card_power_str = set_card_value(hand_str[i])
+            card = Card(card_str, card_value, card_power, card_power_str)
             hand.append(card)
         sorted_hand = sort_hand(hand)
         player = Player(hand, numb + 1, sorted_hand)
         players.append(player)
     dare_plays = int(input())
+    set_card = Card("aa", 60, -1, "a")
+    pile = Pile([], set_card)
 
-    doubted = 0
-    pile = Pile([], -1, [])
-    doubted += player.discard_cards(pile)
+    game = True
+    plays = 0
+    while game:
+        for p in range(len(players)):
+            players[p].stamp_hand()
+        pile.stamp_pile()
+
+        first = True
+
+        i = 0
+        while i >= 0:
+
+            if i - 1 < 0:
+                last_player = player_numb - 1
+            else:
+                last_player = i - 1
+
+            if first:
+                bluff, left_limit, right_limit = players[i].binary_search(players[i].sorted_hand[len(players[i].sorted_hand) - 1])
+                players[i].discard_cards(pile, bluff, left_limit, right_limit)
+                pile.stamp_pile()
+                plays += 1
+
+            if not first:
+                if plays == dare_plays:
+                    plays = 0
+                    print("Jogador ", i + 1, " duvidou.", sep='')
+                    players[last_player].doubt(pile, players[i], bluff, set_card)
+
+                    for p in range(len(players)):
+                        players[p].stamp_hand()
+                    pile.stamp_pile()
+
+                if not players[last_player].sorted_hand:
+                    print("Jogador ", last_player + 1, " é o vencedor!", sep='')
+                    game = False
+                    break
+
+                bluff, left_limit, right_limit = players[i].binary_search(pile.last_card)
+                players[i].discard_cards(pile, bluff, left_limit, right_limit)
+                pile.stamp_pile()
+                plays += 1
+
+            first = False
+
+            i += 1
+            if i >= player_numb:
+                i = 0
 
 if __name__ == "__main__":
     main()

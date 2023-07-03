@@ -11,7 +11,7 @@ COLOR_END = '\033[0m'
 
 # IC: python /home/ec2023/ra251771/Documents/LAB-MC102/checkingcode.py /home/ec2023/ra251771/Documents/LAB-MC102/lab11.py
 
-# HOME: python3 /home/jorge/Documentos/Unicamp/"01 - Algoritmos e Programaçãao de Computadores"/LAB-MC102/checkingcode.py /home/jorge/Documentos/Unicamp/"01 - Algoritmos e Programaçãao de Computadores/LAB-MC102"/lab11.py
+# HOME: python3 /home/jorge/Documentos/Unicamp/"01 - Algoritmos e Programaçãao de Computadores"/LAB-MC102/checkingcode.py /home/jorge/Documentos/Unicamp/"01 - Algoritmos e Programaçãao de Computadores"/LAB-MC102/lab12.py
 
 # Fonte: https://gist.github.com/ines/04b47597eb9d011ade5e77a068389521?permalink_comment_id=4075340#gistcomment-4075340
 def diff_strings(a: str, b: str) -> str:
